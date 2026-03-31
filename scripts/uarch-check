@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# Description: 比对测试结果与 Excel 参考值
+source "$(dirname "$0")/lib/common.sh"
+
+show_help() {
+    cat <<'EOF'
+用法:
+  uarch check <results.csv> [选项]    比对结果与参考值（四舍五入取整后对比）
+  uarch check --help                  显示帮助
+
+选项:
+  --ref PATH     参考 JSON 路径 (默认: data/reference.json)
+
+若 data/reference.json 不存在，会直接读取 Excel。
+执行 'uarch update' 可从 Excel 生成/刷新参考 JSON。
+
+示例:
+  uarch check logs/20260325_154637/results.csv
+  uarch check logs/spike/results.csv
+EOF
+    exit 0
+}
+
+[[ "${1:-}" == "--help" || "${1:-}" == "-h" ]] && show_help
+[[ $# -lt 1 ]] && { echo "用法: uarch check <results.csv> [--ref PATH]"; exit 1; }
+
+exec python3 "$SCRIPTS_DIR/lib/refcheck.py" check "$@"

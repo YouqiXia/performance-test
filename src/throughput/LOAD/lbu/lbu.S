@@ -1,0 +1,23 @@
+    .text
+
+# --- LBU: zext byte ---
+# Dispatch: LOAD → MEM Pipe 0/1
+# Expected throughput=2, latency=2 (L1 hit) / 5 (L2 hit)
+# 4 independent insns × .rept 25 = 100 insns/loop
+
+    .global test_lbu
+    .balign 4
+test_lbu:
+    mv   t3, a0
+.L_lbu_loop:
+    beqz t3, .L_lbu_done
+    .rept 25
+    lbu  t0, 0(a1)
+    lbu  t1, 8(a1)
+    lbu  t2, 16(a1)
+    lbu  t4, 24(a1)
+    .endr
+    addi t3, t3, -1
+    j    .L_lbu_loop
+.L_lbu_done:
+    ret

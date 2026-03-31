@@ -1,0 +1,13 @@
+_gen_workspace/
+.claude/
+.humanize/
+bin/
+bin_spike/
+bin_x86/
+logs/
+anti_prefetch.csv
+*.tar.gz
+bin_spike_ckpt/
+checkpoints/
+install/
+*.json

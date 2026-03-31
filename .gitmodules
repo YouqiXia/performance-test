@@ -1,0 +1,4 @@
+[submodule "riscv-isa-sim"]
+	path = riscv-isa-sim
+	url = https://github.com/raivi-fwz-johann/riscv-isa-sim.git
+	branch = master-johann

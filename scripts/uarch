@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# uarch — riscv-uarch-bench CLI
+# Subcommand dispatch: uarch <command> [args...]
+set -euo pipefail
+
+SCRIPTS_DIR="$(cd "$(dirname "$(readlink -f "$0")")" && pwd)"
+
+cmd="${1:-help}"
+shift || true
+
+subcmd="$SCRIPTS_DIR/uarch-${cmd}"
+
+if [[ -x "$subcmd" ]]; then
+    exec "$subcmd" "$@"
+elif [[ "$cmd" == "help" || "$cmd" == "-h" || "$cmd" == "--help" ]]; then
+    echo "Usage: uarch <command> [args]"
+    echo ""
+    echo "Commands:"
+    for f in "$SCRIPTS_DIR"/uarch-*; do
+        [[ -x "$f" ]] || continue
+        name="$(basename "$f" | sed 's/^uarch-//')"
+        desc="$(grep '^# Description:' "$f" 2>/dev/null | head -1 | sed 's/^# Description: *//')"
+        printf "  %-12s %s\n" "$name" "${desc:-(no description)}"
+    done
+    echo ""
+    echo "Run 'uarch <command> --help' for details."
+else
+    echo "Unknown command: $cmd" >&2
+    echo ""
+    exec "$0" help
+fi

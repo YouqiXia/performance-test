@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# Description: 从 Excel 同步参考值 (latency/throughput)
+source "$(dirname "$0")/lib/common.sh"
+
+show_help() {
+    cat <<'EOF'
+用法:
+  uarch update [选项]    从 Excel 提取参考值 → data/reference.json
+  uarch update --help    显示帮助
+
+选项:
+  --xlsx PATH    Excel 文件路径 (默认: doc/RVA23_Instruction_Classification.xlsx)
+  --out  PATH    输出 JSON 路径 (默认: data/reference.json)
+
+当 Excel 中的 latency/throughput 发生变更后，执行此命令刷新参考数据，
+供 'uarch check' 使用。
+EOF
+    exit 0
+}
+
+[[ "${1:-}" == "--help" || "${1:-}" == "-h" ]] && show_help
+
+exec python3 "$SCRIPTS_DIR/lib/refcheck.py" update "$@"

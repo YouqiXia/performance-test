@@ -1,0 +1,73 @@
+#!/usr/bin/env bash
+# Description: Generate default config JSON
+source "$(dirname "$0")/lib/common.sh"
+
+show_help() {
+    cat <<'EOF'
+Usage:
+  uarch init <preset> [output.json]    Generate config from preset
+  uarch init --help                    Show this help
+
+Presets:
+  spike    Spike ISA simulator config
+  linux    Real hardware config (taskset pinned)
+  custom   Empty command template
+
+If output file is omitted, prints to stdout.
+EOF
+    exit 0
+}
+
+[[ $# -lt 1 || "$1" == "--help" || "$1" == "-h" ]] && show_help
+
+PRESET="$1"
+OUTFILE="${2:-}"
+
+case "$PRESET" in
+    spike)
+        JSON='{
+    "command": "~/workspace/riscv-spike/bin/spike --isa=rv64gcv_zba_zbb_zbs_zfh_zfhmin_zfa_zicond_zcb_zicboz_zicbom_zicbop_zicntr_zicsr_zifencei_zimop_zkt_zvbb_zvfhmin_zvkt_zihintpause_zihintntl ~/workspace/riscv-pk/build/pk {elf}",
+    "bindir":  "bin_spike",
+    "jobs":    4,
+    "timeout": 1,
+    "include": [],
+    "exclude": ["cbo_zero"],
+    "logdir":  "logs/spike",
+    "output":  "logs/spike_summary.txt"
+}'
+        ;;
+    linux)
+        JSON='{
+    "command": "taskset -c 0 {elf}",
+    "bindir":  "bin",
+    "jobs":    1,
+    "timeout": 1,
+    "include": [],
+    "exclude": [],
+    "logdir":  "logs/k3",
+    "output":  "logs/k3_summary.txt"
+}'
+        ;;
+    custom)
+        JSON='{
+    "command": "{elf}",
+    "bindir":  "bin",
+    "jobs":    1,
+    "timeout": 1,
+    "include": [],
+    "exclude": [],
+    "logdir":  "logs/custom",
+    "output":  "logs/custom_summary.txt"
+}'
+        ;;
+    *)
+        die "Unknown preset '$PRESET'. Use 'spike', 'linux', or 'custom'."
+        ;;
+esac
+
+if [[ -n "$OUTFILE" ]]; then
+    echo "$JSON" > "$OUTFILE"
+    ok "Config written to $OUTFILE"
+else
+    echo "$JSON"
+fi

@@ -1,0 +1,91 @@
+#!/usr/bin/env bash
+# Description: Run benchmark tests (with config file or defaults)
+source "$(dirname "$0")/lib/common.sh"
+source "$SCRIPTS_DIR/lib/config.sh"
+source "$SCRIPTS_DIR/lib/discover.sh"
+source "$SCRIPTS_DIR/lib/execute.sh"
+source "$SCRIPTS_DIR/lib/collect.sh"
+
+show_help() {
+    cat <<'EOF'
+Usage:
+  uarch run [config.json]     Run tests with config (or defaults)
+  uarch run -c <core>         Run all tests pinned to specified core
+  uarch run --help            Show this help
+
+Without config: runs all tests in bin/, serial, pinned to core 0,
+output directly to stdout (equivalent to old run_all.sh).
+
+With config: runs tests per config, writes logs and CSV.
+EOF
+    exit 0
+}
+
+# ── Argument parsing ──────────────────────────────────────────────
+CORE=0
+CONFIG_FILE=""
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --help|-h) show_help ;;
+        -c) CORE="${2:?'-c requires a core number'}"; shift 2 ;;
+        *)  CONFIG_FILE="$1"; shift ;;
+    esac
+done
+
+# ── Mode dispatch ─────────────────────────────────────────────────
+if [[ -n "$CONFIG_FILE" ]]; then
+    # Config mode: full pipeline with logs + CSV
+    parse_config "$CONFIG_FILE"
+
+    TESTS=$(discover_tests)
+    COUNT=$(echo "$TESTS" | grep -c .)
+
+    # Initialize summary file early so header is captured
+    mkdir -p "$CFG_LOGDIR"
+    export SUMMARY_FILE="$CFG_LOGDIR/summary.txt"
+    > "$SUMMARY_FILE"
+
+    log "========================================"
+    log "  riscv-uarch-bench runner"
+    log "  Command: $CFG_COMMAND"
+    log "  Bindir:  $CFG_BINDIR"
+    log "  Tests:   $COUNT"
+    log "  Jobs:    $CFG_JOBS"
+    log "  Logdir:  $CFG_LOGDIR"
+    log "========================================"
+    log ""
+    log "Running $COUNT tests (jobs=$CFG_JOBS) ..."
+    log ""
+
+    execute_tests "$TESTS"
+    set +e
+    collect_results "$TESTS"
+else
+    # Direct mode: simple serial run, stdout output (like old run_all.sh)
+    BINDIR="$PROJECT_DIR/bin"
+    [[ -d "$BINDIR" ]] || die "bin/ directory not found. Run 'make' first."
+
+    TESTS=$(find "$BINDIR" -type f -executable | sort)
+    COUNT=$(echo "$TESTS" | grep -c .)
+
+    echo "========================================"
+    echo "  riscv-uarch-bench"
+    echo "  Pinned to core: $CORE"
+    echo "  Tests found: $COUNT"
+    echo "========================================"
+    echo ""
+
+    for test in $TESTS; do
+        name="${test#$BINDIR/}"
+        echo "----------------------------------------"
+        echo ">>> $name"
+        echo "----------------------------------------"
+        taskset -c "$CORE" "$test"
+        echo ""
+    done
+
+    echo "========================================"
+    echo "  All tests completed."
+    echo "========================================"
+fi
