@@ -31,7 +31,9 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
+#include <sys/stat.h>
 #include "arch_params.h"
+#include "perf_helpers.h"
 
 #define CACHELINE       ARCH_CACHELINE
 #define STRIDE          (CACHELINE / (int)sizeof(void *))
@@ -71,11 +73,7 @@ static const int SIZES_KB[] = {
 };
 #endif
 
-static inline uint64_t now_cycles(void) {
-    uint64_t v;
-    __asm__ volatile ("rdcycle %0" : "=r"(v));
-    return v;
-}
+/* now_cycles() removed — use perf_start/perf_stop instead */
 
 static void shuffle(int *a, int n) {
     for (int i = n - 1; i > 0; i--) {
@@ -104,21 +102,21 @@ static void **build_basic_chain(size_t bytes, int *out_nodes) {
     return buf;
 }
 
-static double measure_basic(void **buf) {
+static double measure_basic(void **buf, perf_ctx_t *ctx) {
     register void **p = buf;
     for (int b = 0; b < 5; b++)
         for (int i = 0; i < BATCH; i++)
             p = (void **)*p;
-    uint64_t total = 0;
-    uint64_t t0 = now_cycles();
+    uint64_t total = 0, cycles, instret;
+    perf_start(ctx);
     for (int b = 0; b < MIN_BATCHES; b++) {
         for (int i = 0; i < BATCH; i++)
             p = (void **)*p;
         total += BATCH;
     }
-    uint64_t t1 = now_cycles();
+    perf_stop(ctx, &cycles, &instret);
     __asm__ volatile ("" :: "r"(p) : "memory");
-    return (double)(t1 - t0) / (double)total;
+    return (double)cycles / (double)total;
 }
 
 /* ============================================================
@@ -148,15 +146,15 @@ static void **build_xor_chain(size_t bytes, int *out_nodes) {
     return buf;
 }
 
-static double measure_xor(void **buf) {
+static double measure_xor(void **buf, perf_ctx_t *ctx) {
     register uintptr_t p = (uintptr_t)buf;
     for (int b = 0; b < 5; b++)
         for (int i = 0; i < BATCH; i++) {
             p = *(uintptr_t *)p;
             p ^= XOR_KEY;
         }
-    uint64_t total = 0;
-    uint64_t t0 = now_cycles();
+    uint64_t total = 0, cycles, instret;
+    perf_start(ctx);
     for (int b = 0; b < MIN_BATCHES; b++) {
         for (int i = 0; i < BATCH; i++) {
             p = *(uintptr_t *)p;
@@ -164,9 +162,9 @@ static double measure_xor(void **buf) {
         }
         total += BATCH;
     }
-    uint64_t t1 = now_cycles();
+    perf_stop(ctx, &cycles, &instret);
     __asm__ volatile ("" :: "r"(p) : "memory");
-    return (double)(t1 - t0) / (double)total;
+    return (double)cycles / (double)total;
 }
 
 /* ============================================================
@@ -203,7 +201,7 @@ static MultiChain build_multi_chain(size_t bytes) {
     return mc;
 }
 
-static double measure_multi(MultiChain *mc) {
+static double measure_multi(MultiChain *mc, perf_ctx_t *ctx) {
     void **p[NUM_CHAINS];
     for (int c = 0; c < NUM_CHAINS; c++)
         p[c] = mc->bufs[c];
@@ -214,13 +212,8 @@ static double measure_multi(MultiChain *mc) {
             for (int c = 0; c < NUM_CHAINS; c++)
                 p[c] = (void **)*p[c];
 
-    /*
-     * 交织策略：每步用上一次 load 结果的低 2 bit 选链
-     * 这形成数据依赖：chain_select 依赖上一次 load 值
-     * → CPU 无法提前知道下一步访问哪条链的哪个地址
-     */
-    uint64_t total = 0;
-    uint64_t t0 = now_cycles();
+    uint64_t total = 0, cycles, instret;
+    perf_start(ctx);
     register uintptr_t selector = 0;
     for (int b = 0; b < MIN_BATCHES; b++) {
         for (int i = 0; i < BATCH; i++) {
@@ -230,10 +223,10 @@ static double measure_multi(MultiChain *mc) {
         }
         total += BATCH;
     }
-    uint64_t t1 = now_cycles();
+    perf_stop(ctx, &cycles, &instret);
     for (int c = 0; c < NUM_CHAINS; c++)
         __asm__ volatile ("" :: "r"(p[c]) : "memory");
-    return (double)(t1 - t0) / (double)total;
+    return (double)cycles / (double)total;
 }
 
 /* ============================================================
@@ -265,7 +258,7 @@ static MultiChain build_xor_multi_chain(size_t bytes) {
     return mc;
 }
 
-static double measure_xor_multi(MultiChain *mc) {
+static double measure_xor_multi(MultiChain *mc, perf_ctx_t *ctx) {
     uintptr_t p[NUM_CHAINS];
     for (int c = 0; c < NUM_CHAINS; c++)
         p[c] = (uintptr_t)mc->bufs[c];
@@ -277,8 +270,8 @@ static double measure_xor_multi(MultiChain *mc) {
                 p[c] ^= XOR_KEY;
             }
 
-    uint64_t total = 0;
-    uint64_t t0 = now_cycles();
+    uint64_t total = 0, cycles, instret;
+    perf_start(ctx);
     register uintptr_t selector = 0;
     for (int b = 0; b < MIN_BATCHES; b++) {
         for (int i = 0; i < BATCH; i++) {
@@ -289,10 +282,10 @@ static double measure_xor_multi(MultiChain *mc) {
         }
         total += BATCH;
     }
-    uint64_t t1 = now_cycles();
+    perf_stop(ctx, &cycles, &instret);
     for (int c = 0; c < NUM_CHAINS; c++)
         __asm__ volatile ("" :: "r"(p[c]) : "memory");
-    return (double)(t1 - t0) / (double)total;
+    return (double)cycles / (double)total;
 }
 
 /* ============================================================ */
@@ -311,11 +304,14 @@ int main(void) {
            "Size", "Basic(cy)", "XOR(cy)", "Multi(cy)", "XOR+M(cy)");
     printf("----------  ----------  ----------  ----------  ----------\n");
 
+    perf_ctx_t ctx = perf_init();
+
     srand(42);
     int n = 0;
     while (SIZES_KB[n]) n++;
 
-    FILE *csv = fopen("anti_prefetch.csv", "w");
+    mkdir("logs", 0755);
+    FILE *csv = fopen("logs/anti_prefetch.csv", "w");
     if (csv) fprintf(csv, "size_kb,basic_cy,xor_cy,multi_cy,xor_multi_cy\n");
 
     for (int i = 0; i < n; i++) {
@@ -329,22 +325,22 @@ int main(void) {
         int nn;
         void **buf = build_basic_chain(bytes, &nn);
         if (!buf) continue;
-        for (int r = 0; r < NUM_RUNS; r++) r_basic[r] = measure_basic(buf);
+        for (int r = 0; r < NUM_RUNS; r++) r_basic[r] = measure_basic(buf, &ctx);
         free(buf);
 
         /* XOR */
         buf = build_xor_chain(bytes, &nn);
-        for (int r = 0; r < NUM_RUNS; r++) r_xor[r] = measure_xor(buf);
+        for (int r = 0; r < NUM_RUNS; r++) r_xor[r] = measure_xor(buf, &ctx);
         free(buf);
 
         /* Multi-chain */
         MultiChain mc = build_multi_chain(bytes);
-        for (int r = 0; r < NUM_RUNS; r++) r_multi[r] = measure_multi(&mc);
+        for (int r = 0; r < NUM_RUNS; r++) r_multi[r] = measure_multi(&mc, &ctx);
         for (int c = 0; c < NUM_CHAINS; c++) free(mc.bufs[c]);
 
         /* XOR + Multi */
         mc = build_xor_multi_chain(bytes);
-        for (int r = 0; r < NUM_RUNS; r++) r_xm[r] = measure_xor_multi(&mc);
+        for (int r = 0; r < NUM_RUNS; r++) r_xm[r] = measure_xor_multi(&mc, &ctx);
         for (int c = 0; c < NUM_CHAINS; c++) free(mc.bufs[c]);
 
         qsort(r_basic, NUM_RUNS, sizeof(double), dbl_cmp);
@@ -371,7 +367,7 @@ int main(void) {
         if (csv) fprintf(csv, "%d,%.3f,%.3f,%.3f,%.3f\n", SIZES_KB[i], b, x, m, xm);
     }
 
-    if (csv) { fclose(csv); printf("\nCSV: anti_prefetch.csv\n"); }
+    if (csv) { fclose(csv); printf("\nCSV written\n"); }
 
     printf("\n====== 解读指南 ======\n");
     printf("如果 Basic 和加强版的 latency 差不多:\n");
@@ -384,5 +380,6 @@ int main(void) {
     printf("注意: XOR/Multi 本身有额外指令开销 (~1-2 cycles)\n");
     printf("      真实 prefetch 影响 = 加强版 - 基础版 - 指令开销\n");
 
+    perf_close(&ctx);
     return 0;
 }
