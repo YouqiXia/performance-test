@@ -67,6 +67,18 @@ perf_ctx_t perf_init(void)
     fprintf(stderr, "[perf] spike mode: using rdcycle/rdinstret\n");
 #endif
 
+#ifdef CHECKPOINT
+    /* Preload all ELF pages then trigger checkpoint.
+       Restore resumes here — warmup and measurement run normally. */
+    {
+        extern char __ehdr_start[], _end[];
+        volatile char dummy;
+        for (char *p = __ehdr_start; p < _end; p += 4096)
+            dummy = *p;
+    }
+    __asm__ volatile ("csrw 0x800, x0");
+#endif
+
     return ctx;
 }
 
@@ -88,9 +100,6 @@ static uint64_t fb_cyc_start, fb_inst_start;
 
 void perf_start(perf_ctx_t *ctx)
 {
-#ifdef CHECKPOINT
-    __asm__ volatile ("csrw 0x800, x0");
-#endif
     if (use_fallback) {
         __asm__ volatile ("fence" ::: "memory");
         fb_inst_start = rdinstret();
