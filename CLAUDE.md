@@ -41,8 +41,13 @@
 │   ├── cache/            # Cache 特性测试
 │   ├── latency/          # 指令 latency 测试（按 dispatch type 分组，gen_latency.py 生成）
 │   └── throughput/       # 指令 throughput 测试（按 dispatch type 分组，gen_throughput.py 生成）
+├── thirdparty/
+│   ├── riscv-isa-sim/    # spike 模拟器（git submodule，含 install/）
+│   └── embench-iot/      # Embench 基准测试（git submodule）
+├── checkpoints/          # spike checkpoint 产物（-m64 + zstd 压缩）
 ├── bin/                  # 编译产物（镜像 src/ 层级）
-└── bin_spike/            # spike 编译产物
+├── bin_spike/            # spike 编译产物
+└── bin_spike_ckpt/       # spike checkpoint 编译产物（-DCHECKPOINT）
 ```
 
 ## 构建与运行
@@ -60,6 +65,10 @@ make CROSS_COMPILE=riscv64-unknown-linux-gnu-
 # spike 模拟验证
 make spike
 make spike-run
+
+# spike checkpoint（-m64 缩小内存占用，zstd 压缩）
+make spike-checkpoint
+./scripts/checkpoint_all.sh        # 批量生成，8 路并行，增量跳过已有
 
 # 运行所有测试（绑核 0，直出 stdout）
 ./uarch run

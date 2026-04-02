@@ -1,4 +1,7 @@
 [submodule "riscv-isa-sim"]
-	path = riscv-isa-sim
+	path = thirdparty/riscv-isa-sim
 	url = https://github.com/raivi-fwz-johann/riscv-isa-sim.git
 	branch = master-johann
+[submodule "thirdparty/embench-iot"]
+	path = thirdparty/embench-iot
+	url = https://github.com/embench/embench-iot.git
