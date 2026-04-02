@@ -134,8 +134,8 @@ build_embench() {
 
     bindir=$(embench_bindir "$target")
     case "$target" in
-        spike) config_dir="examples/native/speed" ;;
-        linux) config_dir="config-linux" ;;
+        spike) config_dir="$PROJECT_DIR/arch/embench" ;;
+        linux) config_dir="$PROJECT_DIR/arch/embench" ;;
     esac
 
     if [[ ! -d "$EMBENCH_DIR/src" ]]; then
