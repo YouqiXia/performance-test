@@ -13,7 +13,7 @@ Usage:
   uarch run -c <core>         Run all tests pinned to specified core
   uarch run --help            Show this help
 
-Without config: runs all tests in bin/, serial, pinned to core 0,
+Without config: runs all tests in bin/linux/, serial, pinned to core 0,
 output directly to stdout (equivalent to old run_all.sh).
 
 With config: runs tests per config, writes logs and CSV.
@@ -63,8 +63,8 @@ if [[ -n "$CONFIG_FILE" ]]; then
     collect_results "$TESTS"
 else
     # Direct mode: simple serial run, stdout output (like old run_all.sh)
-    BINDIR="$PROJECT_DIR/bin"
-    [[ -d "$BINDIR" ]] || die "bin/ directory not found. Run 'make' first."
+    BINDIR="$PROJECT_DIR/bin/linux"
+    [[ -d "$BINDIR" ]] || die "bin/linux/ directory not found. Run 'make' first."
 
     TESTS=$(find "$BINDIR" -type f -executable | sort)
     COUNT=$(echo "$TESTS" | grep -c .)

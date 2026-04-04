@@ -1,0 +1,102 @@
+#!/usr/bin/env bash
+# Description: Check environment and toolchain configuration
+source "$(dirname "$0")/lib/common.sh"
+
+show_help() {
+    cat <<'EOF'
+Usage:
+  uarch setup              Check current env and toolchain
+  uarch setup --env <name> Switch to env/<name>.env
+
+Checks:
+  - env file exists and is valid
+  - RISCV_TOOLCHAIN path exists
+  - linux-gnu-gcc and elf-gcc are executable
+  - install/ has spike and pk (if built)
+EOF
+    exit 0
+}
+
+# Parse args
+if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
+    show_help
+fi
+
+if [[ "${1:-}" == "--env" ]]; then
+    name="${2:?'--env requires a name'}"
+    env_file="$PROJECT_DIR/env/${name}.env"
+    [[ -f "$env_file" ]] || die "env file not found: $env_file"
+    echo "Environment: $name ($env_file)"
+    export UARCH_ENV="$name"
+    # Re-source common.sh to pick up new env
+    source "$(dirname "$0")/lib/common.sh"
+fi
+
+echo ""
+echo "=== Environment ==="
+echo "  env file:        env/${_uarch_env}.env"
+echo "  RISCV_TOOLCHAIN: $RISCV_TOOLCHAIN"
+echo "  MARCH:           $MARCH"
+echo "  ARCH:            $ARCH"
+
+echo ""
+echo "=== Toolchain ==="
+ERRORS=0
+
+if [[ -d "$RISCV_TOOLCHAIN" ]]; then
+    ok "RISCV_TOOLCHAIN exists: $RISCV_TOOLCHAIN"
+else
+    fail "RISCV_TOOLCHAIN not found: $RISCV_TOOLCHAIN"
+    ERRORS=$((ERRORS + 1))
+fi
+
+if [[ -x "$LINUX_CC" ]]; then
+    ok "linux-gnu-gcc: $LINUX_CC"
+else
+    fail "linux-gnu-gcc not found: $LINUX_CC"
+    ERRORS=$((ERRORS + 1))
+fi
+
+if [[ -x "$ELF_CC" ]]; then
+    ok "elf-gcc: $ELF_CC"
+else
+    fail "elf-gcc not found: $ELF_CC"
+    ERRORS=$((ERRORS + 1))
+fi
+
+if command -v scons &>/dev/null; then
+    ok "scons: $(command -v scons)"
+else
+    warn "scons not found — needed for embench build (pip install scons)"
+fi
+
+echo ""
+echo "=== Thirdparty (install/) ==="
+
+if [[ -x "$SPIKE_BIN" ]]; then
+    ok "spike: $SPIKE_BIN"
+else
+    warn "spike not built — run: uarch build thirdparty spike"
+fi
+
+if [[ -f "$SPIKE_PK" ]]; then
+    ok "pk: $SPIKE_PK"
+else
+    warn "pk not built — run: uarch build thirdparty pk"
+fi
+
+ARCH_HDR="$PROJECT_DIR/arch/${ARCH}.h"
+if [[ -f "$ARCH_HDR" ]]; then
+    ok "arch profile: $ARCH_HDR"
+else
+    fail "arch profile missing: $ARCH_HDR"
+    ERRORS=$((ERRORS + 1))
+fi
+
+echo ""
+if [[ $ERRORS -eq 0 ]]; then
+    ok "All checks passed"
+else
+    fail "$ERRORS error(s) found"
+    exit 1
+fi

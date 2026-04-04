@@ -24,3 +24,25 @@ die()  { echo "Error: $*" >&2; exit 2; }
 # ── Path helpers ──────────────────────────────────────────────────
 # Resolve ~ in a string (for JSON config values)
 expand_home() { echo "${1/#\~/$HOME}"; }
+
+# ── Environment ──────────────────────────────────────────────────
+# Load env file (pure KEY=VALUE, compatible with Makefile -include)
+_uarch_env="${UARCH_ENV:-default}"
+_env_file="$PROJECT_DIR/env/${_uarch_env}.env"
+if [[ -f "$_env_file" ]]; then
+    source "$_env_file"
+else
+    warn "env file not found: $_env_file (using defaults)"
+fi
+
+# ── Toolchain paths (derived from env) ───────────────────────────
+RISCV_TOOLCHAIN="${RISCV_TOOLCHAIN:-/opt/riscv}"
+MARCH="${MARCH:-rv64gc}"
+ARCH="${ARCH:-default}"
+RISCV_ELF_TOOLCHAIN="${RISCV_ELF_TOOLCHAIN:-$RISCV_TOOLCHAIN}"
+LINUX_CC="$RISCV_TOOLCHAIN/bin/riscv64-unknown-linux-gnu-gcc"
+ELF_CC="$RISCV_ELF_TOOLCHAIN/bin/riscv64-unknown-elf-gcc"
+
+# ── install/ paths (populated by uarch build thirdparty) ─────────
+SPIKE_BIN="$PROJECT_DIR/install/riscv-isa-sim/bin/spike"
+SPIKE_PK="$PROJECT_DIR/install/pk/pk"

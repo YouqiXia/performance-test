@@ -1,214 +1,30 @@
 #!/usr/bin/env bash
-# Description: Build uarch benchmarks and third-party suites
-source "$(dirname "$0")/lib/common.sh"
+# Description: Build benchmarks and third-party tools
+# Second-level dispatcher: uarch build <scope> [args...]
+set -euo pipefail
 
-show_help() {
-    cat <<'EOF'
-Usage:
-  uarch build <what> <target> [options]
+SCRIPTS_DIR="$(cd "$(dirname "$(readlink -f "$0")")" && pwd)"
 
-What:
-  uarch        Main uarch benchmark suite (src/)
-  embench      Embench-iot third-party benchmarks
-  all          Build both uarch + embench
+scope="${1:-help}"
+shift || true
 
-Target:
-  spike        Cross-compile for spike+pk simulation
-  linux        Cross-compile for real Linux RISC-V hardware
-  checkpoint   Spike with checkpoint support — uarch only
+subcmd="$SCRIPTS_DIR/uarch-build-${scope}"
 
-Options:
-  --arch <name>    Arch profile (default: default), e.g. sunchip
-  --cc <path>      Override cross compiler path
-  --clean          Clean build artifacts instead of building
-
-Examples:
-  uarch build uarch spike                 # spike+pk build
-  uarch build uarch linux                 # cross-compile for target board
-  uarch build uarch linux --arch sunchip  # with sunchip profile
-  uarch build embench linux               # embench with rdcycle output
-  uarch build embench spike               # embench for spike (silent)
-  uarch build all spike                   # build everything for spike
-  uarch build uarch spike --clean         # clean spike artifacts
-EOF
-    exit 0
-}
-
-# ── defaults ──
-ARCH="default"
-CC_OVERRIDE=""
-DO_CLEAN=0
-SPIKE_CC="${SPIKE_CC:-$HOME/workspace/riscv/bin/riscv64-unknown-linux-gnu-gcc}"
-EMBENCH_DIR="$PROJECT_DIR/thirdparty/embench-iot"
-
-# ── parse trailing options ──
-parse_options() {
-    while [[ $# -gt 0 ]]; do
-        case "$1" in
-            --arch)   ARCH="${2:?'--arch requires a name'}"; shift 2 ;;
-            --cc)     CC_OVERRIDE="${2:?'--cc requires a path'}"; shift 2 ;;
-            --clean)  DO_CLEAN=1; shift ;;
-            *)        die "Unknown option: $1" ;;
-        esac
+if [[ -x "$subcmd" ]]; then
+    exec "$subcmd" "$@"
+elif [[ "$scope" == "help" || "$scope" == "-h" || "$scope" == "--help" ]]; then
+    echo "Usage: uarch build <scope> [args]"
+    echo ""
+    echo "Scopes:"
+    for f in "$SCRIPTS_DIR"/uarch-build-*; do
+        [[ -x "$f" ]] || continue
+        name="$(basename "$f" | sed 's/^uarch-build-//')"
+        desc="$(grep '^# Description:' "$f" 2>/dev/null | head -1 | sed 's/^# Description: *//')"
+        printf "  %-12s %s\n" "$name" "${desc:-(no description)}"
     done
-
-    local arch_hdr="$PROJECT_DIR/arch/${ARCH}.h"
-    [[ -f "$arch_hdr" ]] || die "Unknown ARCH='$ARCH' — missing $arch_hdr"
-
-    if [[ -n "$CC_OVERRIDE" ]]; then
-        SPIKE_CC="$CC_OVERRIDE"
-    fi
-}
-
-# ── target → bindir mapping ──
-uarch_bindir() {
-    case "$1" in
-        spike)      echo "bin_spike" ;;
-        linux)      echo "bin" ;;
-        checkpoint) echo "bin_spike_ckpt" ;;
-        *)          die "Invalid uarch target: $1 (expected: spike, linux, checkpoint)" ;;
-    esac
-}
-
-embench_bindir() {
-    case "$1" in
-        spike) echo "bd_spike" ;;
-        linux) echo "bd_linux" ;;
-        *)     die "Invalid embench target: $1 (expected: spike, linux)" ;;
-    esac
-}
-
-# where to copy embench binaries in the project tree
-embench_destdir() {
-    case "$1" in
-        spike) echo "bin_spike/embench" ;;
-        linux) echo "bin/embench" ;;
-    esac
-}
-
-# ── build uarch: delegate to Makefile targets ──
-build_uarch() {
-    local target="$1"
-    local bindir
-    bindir=$(uarch_bindir "$target")
-
-    cd "$PROJECT_DIR"
-
-    if [[ $DO_CLEAN -eq 1 ]]; then
-        echo -e "${BOLD}Cleaning${RESET} $bindir/"
-        rm -rf "$bindir"
-        ok "Cleaned $bindir"
-        return
-    fi
-
-    # build make arguments
-    local make_args=(ARCH="$ARCH")
-    if [[ -n "$CC_OVERRIDE" ]]; then
-        make_args+=(SPIKE_CC="$SPIKE_CC")
-    fi
-
-    local make_target
-    case "$target" in
-        spike)      make_target="spike" ;;
-        linux)      make_target="all";
-                    make_args+=(CROSS_COMPILE="${SPIKE_CC%gcc}") ;;
-        checkpoint) make_target="spike-checkpoint" ;;
-    esac
-
-    echo -e "${BOLD}Building uarch${RESET} [target=$target, arch=$ARCH, bin=$bindir]"
-    echo "  make $make_target ${make_args[*]}"
     echo ""
-
-    make "$make_target" "${make_args[@]}"
-
-    echo ""
-    local count
-    count=$(find "$bindir" -type f -executable 2>/dev/null | wc -l)
-    ok "Built $count uarch tests → $bindir/"
-}
-
-# ── build embench via scons ──
-build_embench() {
-    local target="$1"
-    local bindir config_dir
-
-    bindir=$(embench_bindir "$target")
-    case "$target" in
-        spike) config_dir="$PROJECT_DIR/arch/embench" ;;
-        linux) config_dir="$PROJECT_DIR/arch/embench" ;;
-    esac
-
-    if [[ ! -d "$EMBENCH_DIR/src" ]]; then
-        die "embench-iot not found — run: git submodule update --init"
-    fi
-
-    cd "$EMBENCH_DIR"
-
-    local destdir
-    destdir="$PROJECT_DIR/$(embench_destdir "$target")"
-
-    if [[ $DO_CLEAN -eq 1 ]]; then
-        echo -e "${BOLD}Cleaning${RESET} embench $bindir/ and $destdir/"
-        scons -c --build-dir="$bindir" >/dev/null 2>&1 || true
-        rm -rf "$bindir" "$destdir"
-        ok "Cleaned embench"
-        return
-    fi
-
-    echo -e "${BOLD}Building embench-iot${RESET} [target=$target, build=$bindir]"
-    echo "  CC: $SPIKE_CC"
-    echo ""
-
-    scons -c --build-dir="$bindir" >/dev/null 2>&1 || true
-
-    scons \
-        --build-dir="$bindir" \
-        --config-dir="$config_dir" \
-        cc="$SPIKE_CC" \
-        cflags="-O2 -std=gnu11 -march=rv64gc -mabi=lp64d -static -fdata-sections -ffunction-sections" \
-        ldflags="-O2 -static -Wl,-gc-sections" \
-        user_libs=-lm
-
-    # copy binaries to project-level bin dir
-    rm -rf "$destdir"
-    mkdir -p "$destdir"
-    find "$bindir/src" -type f -executable -exec cp {} "$destdir/" \;
-
-    echo ""
-    local count
-    count=$(find "$destdir" -type f -executable 2>/dev/null | wc -l)
-    ok "Built $count embench benchmarks → $(embench_destdir "$target")/"
-}
-
-# ── main ──
-[[ $# -eq 0 ]] && show_help
-
-WHAT="${1:-}"; shift || true
-TARGET="${1:-}"; shift || true
-
-case "$WHAT" in
-    --help|-h)
-        show_help
-        ;;
-    uarch)
-        [[ -z "$TARGET" ]] && die "Usage: uarch build uarch <spike|linux|checkpoint>"
-        parse_options "$@"
-        build_uarch "$TARGET"
-        ;;
-    embench)
-        [[ -z "$TARGET" ]] && die "Usage: uarch build embench <spike|linux>"
-        parse_options "$@"
-        build_embench "$TARGET"
-        ;;
-    all)
-        [[ -z "$TARGET" ]] && die "Usage: uarch build all <spike|linux>"
-        parse_options "$@"
-        build_uarch "$TARGET"
-        case "$TARGET" in
-            spike|linux) build_embench "$TARGET" ;;
-        esac
-        ;;
-    *)
-        die "Unknown: $WHAT (available: uarch, embench, all)"
-        ;;
-esac
+    echo "Run 'uarch build <scope> --help' for details."
+else
+    echo "Unknown build scope: $scope" >&2
+    exec "$0" help
+fi

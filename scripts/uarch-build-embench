@@ -1,0 +1,91 @@
+#!/usr/bin/env bash
+# Description: Build Embench-IoT benchmarks
+source "$(dirname "$0")/lib/common.sh"
+
+show_help() {
+    cat <<'EOF'
+Usage:
+  uarch build embench <target> [options]
+
+Targets:
+  linux        Cross-compile for real hardware → bin/embench/linux/
+  spike        Cross-compile for spike+pk → bin/embench/spike/
+  all          Build both
+
+Options:
+  --clean      Clean build artifacts instead of building
+EOF
+    exit 0
+}
+
+EMBENCH_DIR="$PROJECT_DIR/thirdparty/embench-iot"
+DO_CLEAN=0
+
+TARGET="${1:-}"
+[[ -z "$TARGET" || "$TARGET" == "--help" || "$TARGET" == "-h" ]] && show_help
+shift
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --clean) DO_CLEAN=1; shift ;;
+        *)       die "Unknown option: $1" ;;
+    esac
+done
+
+build_embench() {
+    local target="$1"
+    local scons_builddir destdir config_dir
+
+    case "$target" in
+        spike) scons_builddir="bd_spike"; destdir="$PROJECT_DIR/bin/embench/spike" ;;
+        linux) scons_builddir="bd_linux"; destdir="$PROJECT_DIR/bin/embench/linux" ;;
+        *)     die "Invalid target: $target (expected: spike, linux)" ;;
+    esac
+
+    config_dir="$PROJECT_DIR/arch/embench"
+
+    [[ -d "$EMBENCH_DIR/src" ]] || die "embench-iot not found — run: git submodule update --init"
+
+    cd "$EMBENCH_DIR"
+
+    if [[ $DO_CLEAN -eq 1 ]]; then
+        echo -e "${BOLD}Cleaning${RESET} embench $scons_builddir/ and $destdir/"
+        scons -c --build-dir="$scons_builddir" >/dev/null 2>&1 || true
+        rm -rf "$scons_builddir" "$destdir"
+        ok "Cleaned embench ($target)"
+        return
+    fi
+
+    echo -e "${BOLD}Building embench-iot${RESET} [target=$target]"
+
+    scons -c --build-dir="$scons_builddir" >/dev/null 2>&1 || true
+    scons \
+        --build-dir="$scons_builddir" \
+        --config-dir="$config_dir" \
+        cc="$LINUX_CC" \
+        cflags="-O2 -std=gnu11 -march=rv64gc -mabi=lp64d -static -fdata-sections -ffunction-sections" \
+        ldflags="-O2 -static -Wl,-gc-sections" \
+        user_libs=-lm
+
+    rm -rf "$destdir"
+    mkdir -p "$destdir"
+    find "$scons_builddir/src" -type f -executable -exec cp {} "$destdir/" \;
+
+    echo ""
+    local count
+    count=$(find "$destdir" -type f -executable 2>/dev/null | wc -l)
+    ok "Built $count embench benchmarks → ${destdir#$PROJECT_DIR/}"
+}
+
+case "$TARGET" in
+    linux|spike)
+        build_embench "$TARGET"
+        ;;
+    all)
+        build_embench linux
+        build_embench spike
+        ;;
+    *)
+        die "Unknown target: $TARGET (expected: linux, spike, all)"
+        ;;
+esac

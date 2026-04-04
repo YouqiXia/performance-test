@@ -1,0 +1,125 @@
+#!/usr/bin/env bash
+# Description: Build third-party tools (spike, pk) into install/
+source "$(dirname "$0")/lib/common.sh"
+
+show_help() {
+    cat <<'EOF'
+Usage:
+  uarch build thirdparty <what> [options]
+
+What:
+  spike      Build riscv-isa-sim → install/riscv-isa-sim/
+  pk         Build proxy kernel → install/pk/
+  all        Build spike then pk (pk depends on elf-gcc)
+  qemu       TBD
+
+Options:
+  --clean    Remove install/<what> instead of building
+  --jobs <N> Parallel make jobs (default: nproc)
+
+Examples:
+  uarch build thirdparty spike
+  uarch build thirdparty pk
+  uarch build thirdparty all
+EOF
+    exit 0
+}
+
+DO_CLEAN=0
+MAKE_JOBS="$(nproc)"
+
+WHAT="${1:-}"
+[[ -z "$WHAT" || "$WHAT" == "--help" || "$WHAT" == "-h" ]] && show_help
+shift
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --clean) DO_CLEAN=1; shift ;;
+        --jobs)  MAKE_JOBS="${2:?'--jobs requires a number'}"; shift 2 ;;
+        *)       die "Unknown option: $1" ;;
+    esac
+done
+
+build_spike() {
+    local src_dir="$PROJECT_DIR/thirdparty/riscv-isa-sim"
+    local install_dir="$PROJECT_DIR/install/riscv-isa-sim"
+
+    if [[ $DO_CLEAN -eq 1 ]]; then
+        echo -e "${BOLD}Cleaning${RESET} install/riscv-isa-sim/"
+        rm -rf "$install_dir" "$src_dir/build"
+        ok "Cleaned spike"
+        return
+    fi
+
+    [[ -d "$src_dir/riscv" ]] || die "riscv-isa-sim source not found — run: git submodule update --init"
+
+    echo -e "${BOLD}Building spike${RESET} → install/riscv-isa-sim/"
+
+    mkdir -p "$src_dir/build"
+    cd "$src_dir/build"
+
+    if [[ ! -f Makefile ]]; then
+        ../configure --prefix="$install_dir"
+    fi
+
+    make -j"$MAKE_JOBS"
+    make install
+
+    ok "spike installed → $install_dir/"
+}
+
+build_pk() {
+    local src_dir="$PROJECT_DIR/thirdparty/riscv-pk"
+    local install_dir="$PROJECT_DIR/install/pk"
+
+    if [[ $DO_CLEAN -eq 1 ]]; then
+        echo -e "${BOLD}Cleaning${RESET} install/pk/"
+        rm -rf "$install_dir" "$src_dir/build"
+        ok "Cleaned pk"
+        return
+    fi
+
+    [[ -d "$src_dir/machine" ]] || die "riscv-pk source not found — add as submodule or clone to thirdparty/riscv-pk/"
+
+    [[ -x "$ELF_CC" ]] || die "elf-gcc not found at $ELF_CC — check env RISCV_TOOLCHAIN"
+
+    echo -e "${BOLD}Building pk${RESET} → install/pk/"
+
+    mkdir -p "$src_dir/build"
+    cd "$src_dir/build"
+
+    if [[ ! -f Makefile ]]; then
+        ../configure \
+            --prefix="$install_dir" \
+            --host=riscv64-unknown-elf \
+            CC="$ELF_CC"
+    fi
+
+    make -j"$MAKE_JOBS"
+    make install
+
+    # Copy pk binary to expected location
+    mkdir -p "$install_dir"
+    cp "$src_dir/build/pk" "$install_dir/pk" 2>/dev/null || true
+
+    ok "pk installed → $install_dir/"
+}
+
+case "$WHAT" in
+    spike)
+        build_spike
+        ;;
+    pk)
+        build_pk
+        ;;
+    all)
+        build_spike
+        build_pk
+        ;;
+    qemu)
+        die "QEMU system-mode build is TBD — not yet implemented"
+        ;;
+    *)
+        die "Unknown: $WHAT (available: spike, pk, all, qemu)"
+        ;;
+esac

@@ -9,9 +9,17 @@ Usage:
   uarch init --help                    Show this help
 
 Presets:
-  spike    Spike ISA simulator config
-  linux    Real hardware config (taskset pinned)
-  custom   Empty command template
+  spike        Spike ISA simulator config
+  linux        Real hardware config (taskset pinned)
+  checkpoint   Spike checkpoint restore config
+  custom       Empty command template
+
+Template variables in command field:
+  {spike}       → resolved from install/riscv-isa-sim/bin/spike
+  {pk}          → resolved from install/pk/pk
+  {march}       → resolved from env MARCH
+  {elf}         → replaced per-test at execution time
+  {checkpoint}  → derived from elf path at execution time
 
 If output file is omitted, prints to stdout.
 EOF
@@ -26,8 +34,8 @@ OUTFILE="${2:-}"
 case "$PRESET" in
     spike)
         JSON='{
-    "command": "~/workspace/riscv-spike/bin/spike --isa=rv64gcv_zba_zbb_zbs_zfh_zfhmin_zfa_zicond_zcb_zicboz_zicbom_zicbop_zicntr_zicsr_zifencei_zimop_zkt_zvbb_zvfhmin_zvkt_zihintpause_zihintntl ~/workspace/riscv-pk/build/pk {elf}",
-    "bindir":  "bin_spike",
+    "command": "{spike} --isa={march} {pk} {elf}",
+    "bindir":  "bin/spike",
     "jobs":    4,
     "timeout": 1,
     "include": [],
@@ -39,19 +47,31 @@ case "$PRESET" in
     linux)
         JSON='{
     "command": "taskset -c 0 {elf}",
-    "bindir":  "bin",
+    "bindir":  "bin/linux",
     "jobs":    1,
     "timeout": 1,
     "include": [],
     "exclude": [],
-    "logdir":  "logs/k3",
-    "output":  "logs/k3_summary.txt"
+    "logdir":  "logs/linux",
+    "output":  "logs/linux_summary.txt"
+}'
+        ;;
+    checkpoint)
+        JSON='{
+    "command": "{spike} --isa={march} --restore={checkpoint} {pk} {elf}",
+    "bindir":  "bin/checkpoint",
+    "jobs":    4,
+    "timeout": 1,
+    "include": [],
+    "exclude": [],
+    "logdir":  "logs/checkpoint",
+    "output":  "logs/checkpoint_summary.txt"
 }'
         ;;
     custom)
         JSON='{
     "command": "{elf}",
-    "bindir":  "bin",
+    "bindir":  "bin/linux",
     "jobs":    1,
     "timeout": 1,
     "include": [],
@@ -61,7 +81,7 @@ case "$PRESET" in
 }'
         ;;
     *)
-        die "Unknown preset '$PRESET'. Use 'spike', 'linux', or 'custom'."
+        die "Unknown preset '$PRESET'. Use 'spike', 'linux', 'checkpoint', or 'custom'."
         ;;
 esac
 

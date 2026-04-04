@@ -19,6 +19,8 @@ elif [[ "$cmd" == "help" || "$cmd" == "-h" || "$cmd" == "--help" ]]; then
     for f in "$SCRIPTS_DIR"/uarch-*; do
         [[ -x "$f" ]] || continue
         name="$(basename "$f" | sed 's/^uarch-//')"
+        # Skip sub-dispatched scripts (e.g. uarch-build-uarch)
+        [[ "$name" == *-* ]] && continue
         desc="$(grep '^# Description:' "$f" 2>/dev/null | head -1 | sed 's/^# Description: *//')"
         printf "  %-12s %s\n" "$name" "${desc:-(no description)}"
     done

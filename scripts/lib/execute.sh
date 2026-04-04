@@ -16,10 +16,19 @@ name="${test#$RUN_BINDIR/}"
 logfile="$RUN_LOGDIR/${name}.log"
 mkdir -p "$(dirname "$logfile")"
 
-if echo "$RUN_COMMAND" | grep -q '{elf}'; then
-    real_cmd="${RUN_COMMAND//\{elf\}/./$test}"
+# Second-stage template resolution (per-test variables)
+real_cmd="$RUN_COMMAND"
+if echo "$real_cmd" | grep -q '{elf}'; then
+    real_cmd="${real_cmd//\{elf\}/./$test}"
 else
-    real_cmd="$RUN_COMMAND ./$test"
+    real_cmd="$real_cmd ./$test"
+fi
+# {checkpoint}: derive from elf path — bin/checkpoint/X/Y → checkpoints/X/Y/Y.bootram
+if echo "$real_cmd" | grep -q '{checkpoint}'; then
+    ckpt_rel="${test#$RUN_BINDIR/}"
+    ckpt_name="${ckpt_rel##*/}"
+    ckpt_path="checkpoints/${ckpt_rel%/*}/${ckpt_name}.bootram"
+    real_cmd="${real_cmd//\{checkpoint\}/$ckpt_path}"
 fi
 
 test_output=$(timeout "$RUN_TIMEOUT" bash -c "$real_cmd" 2>&1) && rc=0 || rc=$?

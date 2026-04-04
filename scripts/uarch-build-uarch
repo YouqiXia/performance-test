@@ -1,0 +1,149 @@
+#!/usr/bin/env bash
+# Description: Build uarch benchmark suite (src/)
+source "$(dirname "$0")/lib/common.sh"
+
+show_help() {
+    cat <<'EOF'
+Usage:
+  uarch build uarch <target> [options]
+
+Targets:
+  linux        Cross-compile for real Linux RISC-V hardware → bin/linux/
+  spike        Cross-compile for spike+pk simulation → bin/spike/
+  checkpoint   Spike with checkpoint + batch generation → bin/checkpoint/
+  all          Build all of the above
+
+Options:
+  --arch <name>    Override arch profile (default: from env)
+  --clean          Clean build artifacts instead of building
+  --jobs <N>       Parallel checkpoint jobs (default: 8, checkpoint only)
+
+Examples:
+  uarch build uarch spike
+  uarch build uarch linux --arch sunchip
+  uarch build uarch checkpoint --jobs 4
+EOF
+    exit 0
+}
+
+ARCH_OVERRIDE=""
+DO_CLEAN=0
+CKPT_JOBS=8
+
+TARGET="${1:-}"
+[[ -z "$TARGET" || "$TARGET" == "--help" || "$TARGET" == "-h" ]] && show_help
+shift
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --arch)   ARCH_OVERRIDE="${2:?'--arch requires a name'}"; shift 2 ;;
+        --clean)  DO_CLEAN=1; shift ;;
+        --jobs)   CKPT_JOBS="${2:?'--jobs requires a number'}"; shift 2 ;;
+        *)        die "Unknown option: $1" ;;
+    esac
+done
+
+if [[ -n "$ARCH_OVERRIDE" ]]; then
+    ARCH="$ARCH_OVERRIDE"
+fi
+
+[[ -f "$PROJECT_DIR/arch/${ARCH}.h" ]] || die "Unknown ARCH='$ARCH' — missing arch/${ARCH}.h"
+
+build_target() {
+    local target="$1"
+    local make_target bindir
+
+    case "$target" in
+        linux)      make_target="all";        bindir="bin/linux" ;;
+        spike)      make_target="spike";      bindir="bin/spike" ;;
+        checkpoint) make_target="checkpoint"; bindir="bin/checkpoint" ;;
+        *)          die "Invalid target: $target (expected: linux, spike, checkpoint)" ;;
+    esac
+
+    cd "$PROJECT_DIR"
+
+    if [[ $DO_CLEAN -eq 1 ]]; then
+        echo -e "${BOLD}Cleaning${RESET} $bindir/"
+        rm -rf "$bindir"
+        ok "Cleaned $bindir"
+        return
+    fi
+
+    echo -e "${BOLD}Building uarch${RESET} [target=$target, arch=$ARCH, bin=$bindir]"
+    make "$make_target" ARCH="$ARCH"
+    echo ""
+
+    local count
+    count=$(find "$bindir" -type f -executable 2>/dev/null | wc -l)
+    ok "Built $count uarch tests → $bindir/"
+}
+
+generate_checkpoints() {
+    cd "$PROJECT_DIR"
+
+    local ckpt_elf_dir="bin/checkpoint"
+    local ckpt_out_dir="checkpoints"
+
+    [[ -d "$ckpt_elf_dir" ]] || die "bin/checkpoint/ not found — build first"
+    [[ -x "$SPIKE_BIN" ]] || die "spike not found at $SPIKE_BIN — run: uarch build thirdparty spike"
+    [[ -f "$SPIKE_PK" ]] || die "pk not found at $SPIKE_PK — run: uarch build thirdparty pk"
+
+    local total
+    total=$(find "$ckpt_elf_dir" -type f -executable | wc -l)
+    echo ""
+    echo -e "${BOLD}Generating checkpoints${RESET} [$total ELFs, $CKPT_JOBS parallel]"
+
+    find "$ckpt_elf_dir" -type f -executable | sort | while IFS= read -r elf; do
+        local rel="${elf#$ckpt_elf_dir/}"
+        local ckpt_name="${rel##*/}"
+        local ckpt_dir="${ckpt_out_dir}/${rel%/*}"
+        local ckpt_path="${ckpt_dir}/${ckpt_name}"
+
+        mkdir -p "$ckpt_dir"
+
+        if [[ -f "${ckpt_path}.bootram" ]]; then
+            echo "SKIP  $rel"
+            continue
+        fi
+
+        echo "$elf"
+    done | xargs -P "$CKPT_JOBS" -I {} bash -c '
+        elf="$1"
+        rel="${elf#'"$ckpt_elf_dir"'/}"
+        ckpt_name="${rel##*/}"
+        ckpt_dir="'"$ckpt_out_dir"'/${rel%/*}"
+        ckpt_path="${ckpt_dir}/${ckpt_name}"
+        if '"$SPIKE_BIN"' --isa='"$MARCH"' -m64 --compress-zstd --save="$ckpt_path" '"$SPIKE_PK"' "$elf" \
+            </dev/null >/dev/null 2>"${ckpt_path}.log"; then
+            if [[ -f "${ckpt_path}.bootram" ]]; then
+                rm -f "${ckpt_path}.log"
+                echo "OK    $rel"
+            else
+                echo "FAIL  $rel (no output)"
+            fi
+        else
+            echo "FAIL  $rel (see ${ckpt_path}.log)"
+        fi
+    ' _ {}
+
+    ok "Checkpoints done → $ckpt_out_dir/"
+}
+
+case "$TARGET" in
+    linux|spike)
+        build_target "$TARGET"
+        ;;
+    checkpoint)
+        build_target checkpoint
+        generate_checkpoints
+        ;;
+    all)
+        build_target linux
+        build_target spike
+        build_target checkpoint
+        generate_checkpoints
+        ;;
+    *)
+        die "Unknown target: $TARGET (expected: linux, spike, checkpoint, all)"
+        ;;
+esac

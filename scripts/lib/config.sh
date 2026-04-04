@@ -39,4 +39,13 @@ parse_config() {
     if [[ -z "$CFG_LOGDIR" ]]; then
         CFG_LOGDIR="logs/$(date +%Y%m%d_%H%M%S)"
     fi
+
+    _resolve_command_templates
+}
+
+# Resolve template variables in CFG_COMMAND (first stage — env/install paths)
+_resolve_command_templates() {
+    CFG_COMMAND="${CFG_COMMAND//\{spike\}/$SPIKE_BIN}"
+    CFG_COMMAND="${CFG_COMMAND//\{pk\}/$SPIKE_PK}"
+    CFG_COMMAND="${CFG_COMMAND//\{march\}/$MARCH}"
 }

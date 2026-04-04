@@ -13,8 +13,8 @@ show_help() {
 
 选项:
   --mode <src|spike|cli>  快捷模式（预设常用组合）
-                          src   — 默认包 + src/ + Makefile
-                          spike — 默认包 + bin_spike/
+                          src   — 默认包 + src/ + Makefile + env/
+                          spike — 默认包 + bin/spike/
                           cli   — 仅默认基础包
   --output|-o <file>      输出文件名 (默认: 自动生成带时间戳的名称)
 
@@ -23,14 +23,15 @@ show_help() {
   uarch       CLI 入口符号链接
   data/       参考值 JSON (供 uarch check 使用)
   arch/       微架构 profile
+  env/        工具链与环境配置
 
 示例:
   uarch pack                          # 仅打默认基础包
   uarch pack src/ Makefile            # 默认包 + 源码
-  uarch pack bin_spike/               # 默认包 + spike 预编译产物
+  uarch pack bin/spike/               # 默认包 + spike 预编译产物
   uarch pack bin/ logs/               # 默认包 + 自定义目录
   uarch pack --mode src               # 等价于 uarch pack src/ Makefile
-  uarch pack --mode spike             # 等价于 uarch pack bin_spike/
+  uarch pack --mode spike             # 等价于 uarch pack bin/spike/
   uarch pack --mode src bin/          # mode 预设 + 额外目录
   uarch pack -o out.tar.gz src/       # 指定输出文件名
 EOF
@@ -62,12 +63,13 @@ BASE_FILES=(
     uarch
     data/
     arch/
+    env/
 )
 
 # ── mode 快捷预设 ────────────────────────────────────────────────
 case "$MODE" in
-    src)   EXTRA_FILES+=(src/ Makefile) ;;
-    spike) EXTRA_FILES+=(bin_spike/) ;;
+    src)   EXTRA_FILES+=(src/ Makefile env/) ;;
+    spike) EXTRA_FILES+=(bin/spike/) ;;
     cli)   ;; # 仅基础包
 esac
 
