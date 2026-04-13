@@ -1,4 +1,4 @@
-#include "src/store/common.h"
+#include "src/memory_order/common.h"
     .text
 
 # --- L2 Load-Load Case C: 1 慢 ld + NFAST 快 ld（同地址，t0==a2） ---

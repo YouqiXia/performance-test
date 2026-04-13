@@ -1,4 +1,4 @@
-#include "src/store/common.h"
+#include "src/memory_order/common.h"
     .text
 
 # --- L3 Load Bypass Case B: 1 地址慢 store + NFAST 快 ld（不同地址） ---

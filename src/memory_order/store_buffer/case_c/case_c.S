@@ -1,4 +1,4 @@
-#include "src/store/common.h"
+#include "src/memory_order/common.h"
     .text
 
 # --- L1 Store Buffer Case C: 1 慢 store + NFAST 快 ld（同地址 0(a1)） ---

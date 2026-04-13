@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
-#include "src/store/common.h"
+#include "src/memory_order/common.h"
 
 #define NLOOP  CALC_NLOOP((NFAST + 2) * 8)
 #include "perf_helpers.h"
