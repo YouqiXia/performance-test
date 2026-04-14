@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#if defined(__linux__)
+#if defined(__linux__) && !defined(BAREMETAL)
 #define HAS_PERF_EVENT 1
 #include <unistd.h>
 #include <sys/ioctl.h>

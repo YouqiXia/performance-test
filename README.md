@@ -94,7 +94,9 @@ taskset -c 0 ./bin/linux/dependency/int_fwd/alu_mul # 运行单个测试
 ### spike 模拟验证（x86 宿主机）
 
 ```bash
+make                                                # 交叉编译用于真机
 make spike                                          # 编译（产物在 bin/spike/）
+make baremetal                                      # 编译 baremetal（产物在 bin/baremetal/）
 make spike-run                                      # 编译后运行全部测试
 ```
 
@@ -115,6 +117,7 @@ spike 环境搭建见 [spike 模拟环境](#spike-模拟环境) 章节。
 # benchmark 编译
 ./uarch build uarch spike              # spike+pk 编译 → bin/spike/
 ./uarch build uarch linux              # 交叉编译 → bin/linux/
+./uarch build uarch baremetal          # baremetal 编译 → bin/baremetal/
 ./uarch build uarch checkpoint         # checkpoint 编译 + 批量生成
 ./uarch build uarch all                # 以上全部
 ./uarch build embench linux            # 编译 embench → bin/embench/linux/
@@ -317,6 +320,7 @@ $(BINDIR)/%: $(SRCDIR)/%/main.c $(COMMON)
 |------|------|------|
 | 交叉编译 | `make` | 产物在 `bin/linux/`，工具链从 `env/default.env` 读取 |
 | spike 编译 | `make spike` | 带 `-DUSE_SPIKE`，产物在 `bin/spike/` |
+| baremetal 编译 | `make baremetal` | 裸机直接运行的 ELF，产物在 `bin/baremetal/` |
 | spike 运行 | `make spike-run` | 编译后逐个在 spike 上运行 |
 | checkpoint 编译 | `make checkpoint` | 带 `-DCHECKPOINT`，产物在 `bin/checkpoint/` |
 | 列出测试 | `make list` | 显示所有已发现的测试（当前 392 个） |
@@ -347,7 +351,7 @@ perf_close() → 关闭文件描述符
 
 **运行时自动检测**：
 
-所有构建版本包含相同的测量代码。`perf_init()` 尝试 `perf_event_open()`，成功��使用 Linux 硬件计数器，失败（如 spike+pk 不支持该 syscall）则自动降级到 `rdcycle`/`rdinstret` CSR。如果 Linux 上 `perf_event_open` 因权限不足失败，可执行 `echo -1 | sudo tee /proc/sys/kernel/perf_event_paranoid` 解锁。
+所有构建版本包含相同的测量代码。`perf_init()` 尝试 `perf_event_open()`，成功则使用 Linux 硬件计数器，失败（如 spike+pk 不支持该 syscall）则自动降级到 `rdcycle`/`rdinstret` CSR。如果 Linux 上 `perf_event_open` 因权限不足失败，可执行 `echo -1 | sudo tee /proc/sys/kernel/perf_event_paranoid` 解锁。
 
 `-DUSE_SPIKE` 仅控制 `INSN_BUDGET`（100K vs 200M）和 `CALC_NLOOP` floor 值，不影响测量路径选择。
 
@@ -425,9 +429,11 @@ sudo apt-get install device-tree-compiler libboost-regex-dev libboost-system-dev
 ### 运行方式
 
 ```bash
-make spike                              # 编译
+make                                    # 编译 Linux
+make spike                              # 编译 Spike
+make baremetal                          # 编译 Baremetal
 make spike-run                          # 运行全部
-
+```
 # 或手动运行单个测试
 install/riscv-isa-sim/bin/spike --isa=$(grep MARCH env/default.env | cut -d= -f2) \
   install/pk/pk ./bin/spike/dependency/int_fwd/alu_mul

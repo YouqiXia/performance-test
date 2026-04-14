@@ -10,6 +10,7 @@ Usage:
 Targets:
   linux        Cross-compile for real Linux RISC-V hardware → bin/linux/
   spike        Cross-compile for spike+pk simulation → bin/spike/
+  baremetal    Cross-compile for baremetal simulation → bin/baremetal/
   checkpoint   Spike with checkpoint + batch generation → bin/checkpoint/
   all          Build all of the above
 
@@ -56,8 +57,9 @@ build_target() {
     case "$target" in
         linux)      make_target="all";        bindir="bin/linux" ;;
         spike)      make_target="spike";      bindir="bin/spike" ;;
+        baremetal)  make_target="baremetal";  bindir="bin/baremetal" ;;
         checkpoint) make_target="checkpoint"; bindir="bin/checkpoint" ;;
-        *)          die "Invalid target: $target (expected: linux, spike, checkpoint)" ;;
+        *)          die "Invalid target: $target (expected: linux, spike, baremetal, checkpoint)" ;;
     esac
 
     cd "$PROJECT_DIR"
@@ -130,7 +132,7 @@ generate_checkpoints() {
 }
 
 case "$TARGET" in
-    linux|spike)
+    linux|spike|baremetal)
         build_target "$TARGET"
         ;;
     checkpoint)
@@ -140,10 +142,11 @@ case "$TARGET" in
     all)
         build_target linux
         build_target spike
+        build_target baremetal
         build_target checkpoint
         generate_checkpoints
         ;;
     *)
-        die "Unknown target: $TARGET (expected: linux, spike, checkpoint, all)"
+        die "Unknown target: $TARGET (expected: linux, spike, baremetal, checkpoint, all)"
         ;;
 esac

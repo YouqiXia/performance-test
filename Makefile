@@ -4,6 +4,7 @@
 #   make                        # cross-compile for Linux (bin/linux/)
 #   make spike                  # compile for spike+pk (bin/spike/)
 #   make checkpoint             # compile for spike checkpoint (bin/checkpoint/)
+#   make baremetal              # compile for spike direct baremetal (bin/baremetal/)
 #   make spike-run              # compile + run all on spike
 #   make clean                  # remove all build artifacts
 
@@ -42,7 +43,19 @@ COMMON  := $(wildcard $(SRCDIR)/common/*.c)
 TESTS := $(shell find $(SRCDIR) -name main.c -not -path '*/common/*')
 BINS  := $(patsubst $(SRCDIR)/%/main.c,$(BINDIR)/%,$(TESTS))
 
-.PHONY: all spike checkpoint spike-run clean distclean list
+.PHONY: all spike checkpoint spike-run clean distclean list baremetal
+
+include src/baremetal/common/baremetal.mk
+
+BAREMETAL_BINDIR := bin/baremetal
+
+ifneq ($(strip $(BAREMETAL_CASES)),)
+BAREMETAL_TESTS := $(addprefix $(SRCDIR)/,$(addsuffix /main.c,$(BAREMETAL_CASES)))
+else
+BAREMETAL_TESTS := $(TESTS)
+endif
+
+BAREMETAL_BINS := $(patsubst $(SRCDIR)/%/main.c,$(BAREMETAL_BINDIR)/%,$(BAREMETAL_TESTS))
 
 all: $(BINS)
 
@@ -50,6 +63,15 @@ all: $(BINS)
 $(BINDIR)/%: $(SRCDIR)/%/main.c $(COMMON)
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -o $@ $< $(wildcard $(dir $<)*.S) $(COMMON) $(LDFLAGS)
+
+baremetal: $(BAREMETAL_BINS)
+
+$(BAREMETAL_BINDIR)/%: $(SRCDIR)/%/main.c $(COMMON) $(BAREMETAL_RUNTIME_ASMS) $(BAREMETAL_RUNTIME_SRCS)
+	@mkdir -p $(dir $@)
+	$(BAREMETAL_CC) $(BAREMETAL_COMMON_FLAGS) -o $@ \
+		$(BAREMETAL_RUNTIME_ASMS) $< $(wildcard $(dir $<)*.S) \
+		$(COMMON) $(BAREMETAL_RUNTIME_SRCS) $(BAREMETAL_LDFLAGS)
+
 
 # --- spike: cross-compile with -DUSE_SPIKE ---
 # Uses recursive make because BINDIR must be set at parse time (affects BINS list)

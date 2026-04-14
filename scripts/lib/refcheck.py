@@ -252,6 +252,23 @@ def print_report(matches, mismatches, skipped):
                     mn, m["measured_thr"], m["measured_thr_raw"],
                     m["expected_thr"], raw, tst))
 
+    if skipped:
+        print(bold(yellow("\n" + "=" * 70)))
+        print(bold(yellow("  跳过明细: %d" % len(skipped))))
+        print(bold(yellow("=" * 70)))
+        by_reason = {}
+        for s in skipped:
+            by_reason.setdefault(s["reason"], []).append(s)
+        for reason, items in sorted(by_reason.items()):
+            print(dim("    %s: %d 条指令" % (reason, len(items))))
+            for s in sorted(items, key=lambda x: (x["test"], x["variant"])):
+                print(dim("      %-16s %-10s %s :: %s" % (
+                    s["mnemonic"],
+                    s["type"],
+                    s["test"],
+                    s["variant"],
+                )))
+
     # ── 汇总 ──
     print("\n" + "=" * 70)
     summary = "  %s: %d   %s: %d   %s: %d   共检查: %d" % (
@@ -261,14 +278,6 @@ def print_report(matches, mismatches, skipped):
         total_checked)
     print(summary)
     print("=" * 70)
-
-    if skipped:
-        print(dim("\n  跳过明细:"))
-        by_reason = {}
-        for s in skipped:
-            by_reason.setdefault(s["reason"], []).append(s)
-        for reason, items in sorted(by_reason.items()):
-            print(dim("    %s: %d 条指令" % (reason, len(items))))
 
     if not mismatches:
         print(green("\n  所有检查项均与 Excel 参考值一致。"))

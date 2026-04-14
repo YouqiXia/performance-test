@@ -10,6 +10,7 @@ Usage:
 
 Presets:
   spike        Spike ISA simulator config
+  baremetal    Spike baremetal simulator config
   linux        Real hardware config (taskset pinned)
   checkpoint   Spike checkpoint restore config
   custom       Empty command template
@@ -42,6 +43,18 @@ case "$PRESET" in
     "exclude": ["cbo_zero"],
     "logdir":  "logs/spike",
     "output":  "logs/spike_summary.txt"
+}'
+        ;;
+    baremetal)
+        JSON='{
+    "command": "{spike} --isa={march} {elf}",
+    "bindir":  "bin/baremetal",
+    "jobs":    4,
+    "timeout": 1,
+    "include": [],
+    "exclude": ["cbo_zero"],
+    "logdir":  "logs/baremetal",
+    "output":  "logs/baremetal_summary.txt"
 }'
         ;;
     linux)
@@ -81,7 +94,7 @@ case "$PRESET" in
 }'
         ;;
     *)
-        die "Unknown preset '$PRESET'. Use 'spike', 'linux', 'checkpoint', or 'custom'."
+        die "Unknown preset '$PRESET'. Use 'spike', 'baremetal', 'linux', 'checkpoint', or 'custom'."
         ;;
 esac
 
