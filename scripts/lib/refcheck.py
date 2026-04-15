@@ -207,7 +207,7 @@ def check_results(csv_path, ref):
 
 # ── 报告输出 ─────────────────────────────────────────────────────────
 
-def print_report(matches, mismatches, skipped):
+def print_report(matches, mismatches, skipped, verbose_skipped=False):
     total_checked = len(matches) + len(mismatches)
 
     # ── 不一致项 ──
@@ -261,13 +261,14 @@ def print_report(matches, mismatches, skipped):
             by_reason.setdefault(s["reason"], []).append(s)
         for reason, items in sorted(by_reason.items()):
             print(dim("    %s: %d 条指令" % (reason, len(items))))
-            for s in sorted(items, key=lambda x: (x["test"], x["variant"])):
-                print(dim("      %-16s %-10s %s :: %s" % (
-                    s["mnemonic"],
-                    s["type"],
-                    s["test"],
-                    s["variant"],
-                )))
+            if verbose_skipped:
+                for s in sorted(items, key=lambda x: (x["test"], x["variant"])):
+                    print(dim("      %-16s %-10s %s :: %s" % (
+                        s["mnemonic"],
+                        s["type"],
+                        s["test"],
+                        s["variant"],
+                    )))
 
     # ── 汇总 ──
     print("\n" + "=" * 70)
@@ -332,7 +333,8 @@ def cmd_check(args):
     print(dim("比对方式: 四舍五入取整后对比"))
 
     matches, mismatches, skipped = check_results(csv_path, ref)
-    ok = print_report(matches, mismatches, skipped)
+    ok = print_report(matches, mismatches, skipped,
+                      verbose_skipped=args.verbose_skipped)
 
     sys.exit(0 if ok else 1)
 
@@ -354,6 +356,8 @@ def main():
     ch.add_argument("csv", help="results.csv 路径")
     ch.add_argument("--ref", default=str(DEFAULT_REF),
                     help="参考 JSON 路径 (默认: data/reference.json)")
+    ch.add_argument("--verbose-skipped", action="store_true",
+                    help="打印跳过项的逐条详细信息")
 
     args = p.parse_args()
     if args.command == "update":

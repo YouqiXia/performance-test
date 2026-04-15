@@ -10,6 +10,8 @@ show_help() {
 
 选项:
   --ref PATH     参考 JSON 路径 (默认: data/reference.json)
+  --verbose-skipped
+                 打印跳过项的逐条详细信息（默认仅按原因汇总）
 
 若 data/reference.json 不存在，会直接读取 Excel。
 执行 'uarch update' 可从 Excel 生成/刷新参考 JSON。
