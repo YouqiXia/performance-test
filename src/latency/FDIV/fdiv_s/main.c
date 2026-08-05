@@ -1,7 +1,7 @@
 /* Latency test: FDIV.S lat */
 #include <stdio.h>
 #include <stdint.h>
-#define NLOOP  CALC_NLOOP(20)
+#define NLOOP  CALC_NLOOP(1000)
 #include "perf_helpers.h"
 
 extern void test_fdiv_s(uint64_t nloop);
@@ -15,7 +15,7 @@ int main(void)
     test_fdiv_s(NLOOP);
     perf_stop(&ctx, &cycles, &instret);
     perf_print("FDIV.S lat", cycles, instret,
-              (uint64_t)NLOOP * 20, 1);
+              (uint64_t)NLOOP * 1000, 1);
     perf_close(&ctx);
     return 0;
 }

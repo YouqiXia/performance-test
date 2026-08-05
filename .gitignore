@@ -20,3 +20,5 @@ _gen_workspace/
 .claude/
 .humanize/
 docs/superpowers/
+.gemini/
+.codex/

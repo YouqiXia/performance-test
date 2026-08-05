@@ -1,0 +1,3242 @@
+{
+  "ADD": {
+    "category": "ALU",
+    "latency": "1",
+    "throughput": "4"
+  },
+  "SUB": {
+    "category": "ALU",
+    "latency": "1",
+    "throughput": "4"
+  },
+  "SLL": {
+    "category": "ALU",
+    "latency": "1",
+    "throughput": "4"
+  },
+  "SLT": {
+    "category": "ALU",
+    "latency": "1",
+    "throughput": "4"
+  },
+  "SLTU": {
+    "category": "ALU",
+    "latency": "1",
+    "throughput": "4"
+  },
+  "XOR": {
+    "category": "ALU",
+    "latency": "1",
+    "throughput": "4"
+  },
+  "SRL": {
+    "category": "ALU",
+    "latency": "1",
+    "throughput": "4"
+  },
+  "SRA": {
+    "category": "ALU",
+    "latency": "1",
+    "throughput": "4"
+  },
+  "OR": {
+    "category": "ALU",
+    "latency": "1",
+    "throughput": "4"
+  },
+  "AND": {
+    "category": "ALU",
+    "latency": "1",
+    "throughput": "4"
+  },
+  "ADDI": {
+    "category": "ALU",
+    "latency": "1",
+    "throughput": "4"
+  },
+  "SLTI": {
+    "category": "ALU",
+    "latency": "1",
+    "throughput": "4"
+  },
+  "SLTIU": {
+    "category": "ALU",
+    "latency": "1",
+    "throughput": "4"
+  },
+  "XORI": {
+    "category": "ALU",
+    "latency": "1",
+    "throughput": "4"
+  },
+  "ORI": {
+    "category": "ALU",
+    "latency": "1",
+    "throughput": "4"
+  },
+  "ANDI": {
+    "category": "ALU",
+    "latency": "1",
+    "throughput": "4"
+  },
+  "SLLI": {
+    "category": "ALU",
+    "latency": "1",
+    "throughput": "4"
+  },
+  "SRLI": {
+    "category": "ALU",
+    "latency": "1",
+    "throughput": "4"
+  },
+  "SRAI": {
+    "category": "ALU",
+    "latency": "1",
+    "throughput": "4"
+  },
+  "LUI": {
+    "category": "ALU",
+    "latency": "1",
+    "throughput": "4"
+  },
+  "AUIPC": {
+    "category": "ALU",
+    "latency": "1",
+    "throughput": "4"
+  },
+  "ADDW": {
+    "category": "ALU",
+    "latency": "1",
+    "throughput": "4"
+  },
+  "SUBW": {
+    "category": "ALU",
+    "latency": "1",
+    "throughput": "4"
+  },
+  "SLLW": {
+    "category": "ALU",
+    "latency": "1",
+    "throughput": "4"
+  },
+  "SRLW": {
+    "category": "ALU",
+    "latency": "1",
+    "throughput": "4"
+  },
+  "SRAW": {
+    "category": "ALU",
+    "latency": "1",
+    "throughput": "4"
+  },
+  "ADDIW": {
+    "category": "ALU",
+    "latency": "1",
+    "throughput": "4"
+  },
+  "SLLIW": {
+    "category": "ALU",
+    "latency": "1",
+    "throughput": "4"
+  },
+  "SRLIW": {
+    "category": "ALU",
+    "latency": "1",
+    "throughput": "4"
+  },
+  "SRAIW": {
+    "category": "ALU",
+    "latency": "1",
+    "throughput": "4"
+  },
+  "BEQ": {
+    "category": "BRU",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "BNE": {
+    "category": "BRU",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "BLT": {
+    "category": "BRU",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "BGE": {
+    "category": "BRU",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "BLTU": {
+    "category": "BRU",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "BGEU": {
+    "category": "BRU",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "JAL": {
+    "category": "BRU",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "JALR": {
+    "category": "BRU",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "LB": {
+    "category": "LOAD",
+    "latency": "2 (L1 hit) / 5 (L2 hit)",
+    "throughput": "2"
+  },
+  "LH": {
+    "category": "LOAD",
+    "latency": "2 (L1 hit) / 5 (L2 hit)",
+    "throughput": "2"
+  },
+  "LW": {
+    "category": "LOAD",
+    "latency": "2 (L1 hit) / 5 (L2 hit)",
+    "throughput": "2"
+  },
+  "LD": {
+    "category": "LOAD",
+    "latency": "2 (L1 hit) / 5 (L2 hit)",
+    "throughput": "2"
+  },
+  "LBU": {
+    "category": "LOAD",
+    "latency": "2 (L1 hit) / 5 (L2 hit)",
+    "throughput": "2"
+  },
+  "LHU": {
+    "category": "LOAD",
+    "latency": "2 (L1 hit) / 5 (L2 hit)",
+    "throughput": "2"
+  },
+  "LWU": {
+    "category": "LOAD",
+    "latency": "2 (L1 hit) / 5 (L2 hit)",
+    "throughput": "2"
+  },
+  "SB": {
+    "category": "STORE",
+    "latency": "2",
+    "throughput": "1"
+  },
+  "SH": {
+    "category": "STORE",
+    "latency": "2",
+    "throughput": "1"
+  },
+  "SW": {
+    "category": "STORE",
+    "latency": "2",
+    "throughput": "1"
+  },
+  "SD": {
+    "category": "STORE",
+    "latency": "2",
+    "throughput": "1"
+  },
+  "ECALL": {
+    "category": "SYSTEM",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "EBREAK": {
+    "category": "SYSTEM",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "FENCE": {
+    "category": "SYSTEM",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "FENCE.TSO": {
+    "category": "SYSTEM",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "MRET": {
+    "category": "SYSTEM",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "SRET": {
+    "category": "SYSTEM",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "WFI": {
+    "category": "SYSTEM",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "SFENCE.VMA": {
+    "category": "SYSTEM",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "MUL": {
+    "category": "MUL",
+    "latency": "3",
+    "throughput": "1"
+  },
+  "MULH": {
+    "category": "MUL",
+    "latency": "3",
+    "throughput": "1"
+  },
+  "MULHSU": {
+    "category": "MUL",
+    "latency": "3",
+    "throughput": "1"
+  },
+  "MULHU": {
+    "category": "MUL",
+    "latency": "3",
+    "throughput": "1"
+  },
+  "MULW": {
+    "category": "MUL",
+    "latency": "3",
+    "throughput": "1"
+  },
+  "DIV": {
+    "category": "DIV",
+    "latency": "17-18",
+    "throughput": "1/17"
+  },
+  "DIVU": {
+    "category": "DIV",
+    "latency": "17-18",
+    "throughput": "1/17"
+  },
+  "REM": {
+    "category": "DIV",
+    "latency": "17-18",
+    "throughput": "1/17"
+  },
+  "REMU": {
+    "category": "DIV",
+    "latency": "17-18",
+    "throughput": "1/17"
+  },
+  "DIVW": {
+    "category": "DIV",
+    "latency": "17-18",
+    "throughput": "1/17"
+  },
+  "DIVUW": {
+    "category": "DIV",
+    "latency": "17-18",
+    "throughput": "1/17"
+  },
+  "REMW": {
+    "category": "DIV",
+    "latency": "17-18",
+    "throughput": "1/17"
+  },
+  "REMUW": {
+    "category": "DIV",
+    "latency": "17-18",
+    "throughput": "1/17"
+  },
+  "LR.W": {
+    "category": "AMO",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "SC.W": {
+    "category": "AMO",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "AMOSWAP.W": {
+    "category": "AMO",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "AMOADD.W": {
+    "category": "AMO",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "AMOAND.W": {
+    "category": "AMO",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "AMOOR.W": {
+    "category": "AMO",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "AMOXOR.W": {
+    "category": "AMO",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "AMOMAX.W": {
+    "category": "AMO",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "AMOMIN.W": {
+    "category": "AMO",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "AMOMAXU.W": {
+    "category": "AMO",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "AMOMINU.W": {
+    "category": "AMO",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "LR.D": {
+    "category": "AMO",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "SC.D": {
+    "category": "AMO",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "AMOSWAP.D": {
+    "category": "AMO",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "AMOADD.D": {
+    "category": "AMO",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "AMOAND.D": {
+    "category": "AMO",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "AMOOR.D": {
+    "category": "AMO",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "AMOXOR.D": {
+    "category": "AMO",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "AMOMAX.D": {
+    "category": "AMO",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "AMOMIN.D": {
+    "category": "AMO",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "AMOMAXU.D": {
+    "category": "AMO",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "AMOMINU.D": {
+    "category": "AMO",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "FLW": {
+    "category": "LOAD",
+    "latency": "2 (L1 hit) / 5 (L2 hit)",
+    "throughput": "2"
+  },
+  "FSW": {
+    "category": "STORE",
+    "latency": "2",
+    "throughput": "1"
+  },
+  "FMADD.S": {
+    "category": "FMA",
+    "latency": "4",
+    "throughput": "2"
+  },
+  "FMSUB.S": {
+    "category": "FMA",
+    "latency": "4",
+    "throughput": "2"
+  },
+  "FNMADD.S": {
+    "category": "FMA",
+    "latency": "4",
+    "throughput": "2"
+  },
+  "FNMSUB.S": {
+    "category": "FMA",
+    "latency": "4",
+    "throughput": "2"
+  },
+  "FADD.S": {
+    "category": "FADD",
+    "latency": "2",
+    "throughput": "2"
+  },
+  "FSUB.S": {
+    "category": "FADD",
+    "latency": "2",
+    "throughput": "2"
+  },
+  "FMUL.S": {
+    "category": "FMUL",
+    "latency": "3",
+    "throughput": "2"
+  },
+  "FDIV.S": {
+    "category": "FDIV",
+    "latency": "20",
+    "throughput": "1/20"
+  },
+  "FSQRT.S": {
+    "category": "FSQRT",
+    "latency": "[TBD]",
+    "throughput": "[TBD]"
+  },
+  "FSGNJ.S": {
+    "category": "FMISC",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "FSGNJN.S": {
+    "category": "FMISC",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "FSGNJX.S": {
+    "category": "FMISC",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "FMIN.S": {
+    "category": "FMISC",
+    "latency": "4",
+    "throughput": "1"
+  },
+  "FMAX.S": {
+    "category": "FMISC",
+    "latency": "4",
+    "throughput": "1"
+  },
+  "FCLASS.S": {
+    "category": "FCLASS",
+    "latency": "1 (FU) / 2 (effective, cross-domain)",
+    "throughput": "1"
+  },
+  "FCVT.W.S": {
+    "category": "FCVT.F2I",
+    "latency": "2 (FU) / 3 (effective, cross-domain)",
+    "throughput": "1"
+  },
+  "FCVT.WU.S": {
+    "category": "FCVT.F2I",
+    "latency": "2 (FU) / 3 (effective, cross-domain)",
+    "throughput": "1"
+  },
+  "FCVT.L.S": {
+    "category": "FCVT.F2I",
+    "latency": "2 (FU) / 3 (effective, cross-domain)",
+    "throughput": "1"
+  },
+  "FCVT.LU.S": {
+    "category": "FCVT.F2I",
+    "latency": "2 (FU) / 3 (effective, cross-domain)",
+    "throughput": "1"
+  },
+  "FCVT.S.W": {
+    "category": "FCVT.I2F",
+    "latency": "4 (FU) / 5 (effective, cross-domain)",
+    "throughput": "1"
+  },
+  "FCVT.S.WU": {
+    "category": "FCVT.I2F",
+    "latency": "4 (FU) / 5 (effective, cross-domain)",
+    "throughput": "1"
+  },
+  "FCVT.S.L": {
+    "category": "FCVT.I2F",
+    "latency": "4 (FU) / 5 (effective, cross-domain)",
+    "throughput": "1"
+  },
+  "FCVT.S.LU": {
+    "category": "FCVT.I2F",
+    "latency": "4 (FU) / 5 (effective, cross-domain)",
+    "throughput": "1"
+  },
+  "FEQ.S": {
+    "category": "FCMP",
+    "latency": "4 (FU) / 5 (effective, cross-domain)",
+    "throughput": "1"
+  },
+  "FLT.S": {
+    "category": "FCMP",
+    "latency": "4 (FU) / 5 (effective, cross-domain)",
+    "throughput": "1"
+  },
+  "FLE.S": {
+    "category": "FCMP",
+    "latency": "4 (FU) / 5 (effective, cross-domain)",
+    "throughput": "1"
+  },
+  "FMV.X.W": {
+    "category": "FMV.F2I",
+    "latency": "1 (FU) / 2 (effective, cross-domain)",
+    "throughput": "1"
+  },
+  "FMV.W.X": {
+    "category": "FMV.I2F",
+    "latency": "1 (FU) / 2 (effective, cross-domain)",
+    "throughput": "1"
+  },
+  "FLD": {
+    "category": "LOAD",
+    "latency": "2 (L1 hit) / 5 (L2 hit)",
+    "throughput": "2"
+  },
+  "FSD": {
+    "category": "STORE",
+    "latency": "2",
+    "throughput": "1"
+  },
+  "FMADD.D": {
+    "category": "FMA",
+    "latency": "4",
+    "throughput": "2"
+  },
+  "FMSUB.D": {
+    "category": "FMA",
+    "latency": "4",
+    "throughput": "2"
+  },
+  "FNMADD.D": {
+    "category": "FMA",
+    "latency": "4",
+    "throughput": "2"
+  },
+  "FNMSUB.D": {
+    "category": "FMA",
+    "latency": "4",
+    "throughput": "2"
+  },
+  "FADD.D": {
+    "category": "FADD",
+    "latency": "2",
+    "throughput": "2"
+  },
+  "FSUB.D": {
+    "category": "FADD",
+    "latency": "2",
+    "throughput": "2"
+  },
+  "FMUL.D": {
+    "category": "FMUL",
+    "latency": "3",
+    "throughput": "2"
+  },
+  "FDIV.D": {
+    "category": "FDIV",
+    "latency": "23",
+    "throughput": "1/23"
+  },
+  "FSQRT.D": {
+    "category": "FSQRT",
+    "latency": "[TBD]",
+    "throughput": "[TBD]"
+  },
+  "FSGNJ.D": {
+    "category": "FMISC",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "FSGNJN.D": {
+    "category": "FMISC",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "FSGNJX.D": {
+    "category": "FMISC",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "FMIN.D": {
+    "category": "FMISC",
+    "latency": "4",
+    "throughput": "1"
+  },
+  "FMAX.D": {
+    "category": "FMISC",
+    "latency": "4",
+    "throughput": "1"
+  },
+  "FCLASS.D": {
+    "category": "FCLASS",
+    "latency": "1 (FU) / 2 (effective, cross-domain)",
+    "throughput": "1"
+  },
+  "FCVT.W.D": {
+    "category": "FCVT.F2I",
+    "latency": "2 (FU) / 3 (effective, cross-domain)",
+    "throughput": "1"
+  },
+  "FCVT.WU.D": {
+    "category": "FCVT.F2I",
+    "latency": "2 (FU) / 3 (effective, cross-domain)",
+    "throughput": "1"
+  },
+  "FCVT.L.D": {
+    "category": "FCVT.F2I",
+    "latency": "2 (FU) / 3 (effective, cross-domain)",
+    "throughput": "1"
+  },
+  "FCVT.LU.D": {
+    "category": "FCVT.F2I",
+    "latency": "2 (FU) / 3 (effective, cross-domain)",
+    "throughput": "1"
+  },
+  "FCVT.D.W": {
+    "category": "FCVT.I2F",
+    "latency": "4 (FU) / 5 (effective, cross-domain)",
+    "throughput": "1"
+  },
+  "FCVT.D.WU": {
+    "category": "FCVT.I2F",
+    "latency": "4 (FU) / 5 (effective, cross-domain)",
+    "throughput": "1"
+  },
+  "FCVT.D.L": {
+    "category": "FCVT.I2F",
+    "latency": "4 (FU) / 5 (effective, cross-domain)",
+    "throughput": "1"
+  },
+  "FCVT.D.LU": {
+    "category": "FCVT.I2F",
+    "latency": "4 (FU) / 5 (effective, cross-domain)",
+    "throughput": "1"
+  },
+  "FCVT.S.D": {
+    "category": "FMISC",
+    "latency": "2",
+    "throughput": "1"
+  },
+  "FCVT.D.S": {
+    "category": "FMISC",
+    "latency": "2",
+    "throughput": "1"
+  },
+  "FEQ.D": {
+    "category": "FCMP",
+    "latency": "4 (FU) / 5 (effective, cross-domain)",
+    "throughput": "1"
+  },
+  "FLT.D": {
+    "category": "FCMP",
+    "latency": "4 (FU) / 5 (effective, cross-domain)",
+    "throughput": "1"
+  },
+  "FLE.D": {
+    "category": "FCMP",
+    "latency": "4 (FU) / 5 (effective, cross-domain)",
+    "throughput": "1"
+  },
+  "FMV.X.D": {
+    "category": "FMV.F2I",
+    "latency": "1 (FU) / 2 (effective, cross-domain)",
+    "throughput": "1"
+  },
+  "FMV.D.X": {
+    "category": "FMV.I2F",
+    "latency": "1 (FU) / 2 (effective, cross-domain)",
+    "throughput": "1"
+  },
+  "C.ADD": {
+    "category": "ALU",
+    "latency": "1",
+    "throughput": "4"
+  },
+  "C.ADDI": {
+    "category": "ALU",
+    "latency": "1",
+    "throughput": "4"
+  },
+  "C.ADDIW": {
+    "category": "ALU",
+    "latency": "1",
+    "throughput": "4"
+  },
+  "C.ADDI16SP": {
+    "category": "ALU",
+    "latency": "1",
+    "throughput": "4"
+  },
+  "C.ADDI4SPN": {
+    "category": "ALU",
+    "latency": "1",
+    "throughput": "4"
+  },
+  "C.SUB": {
+    "category": "ALU",
+    "latency": "1",
+    "throughput": "4"
+  },
+  "C.SUBW": {
+    "category": "ALU",
+    "latency": "1",
+    "throughput": "4"
+  },
+  "C.ADDW": {
+    "category": "ALU",
+    "latency": "1",
+    "throughput": "4"
+  },
+  "C.LI": {
+    "category": "ALU",
+    "latency": "1",
+    "throughput": "4"
+  },
+  "C.LUI": {
+    "category": "ALU",
+    "latency": "1",
+    "throughput": "4"
+  },
+  "C.MV": {
+    "category": "ALU",
+    "latency": "1",
+    "throughput": "4"
+  },
+  "C.ANDI": {
+    "category": "ALU",
+    "latency": "1",
+    "throughput": "4"
+  },
+  "C.AND": {
+    "category": "ALU",
+    "latency": "1",
+    "throughput": "4"
+  },
+  "C.OR": {
+    "category": "ALU",
+    "latency": "1",
+    "throughput": "4"
+  },
+  "C.XOR": {
+    "category": "ALU",
+    "latency": "1",
+    "throughput": "4"
+  },
+  "C.SLLI": {
+    "category": "ALU",
+    "latency": "1",
+    "throughput": "4"
+  },
+  "C.SRLI": {
+    "category": "ALU",
+    "latency": "1",
+    "throughput": "4"
+  },
+  "C.SRAI": {
+    "category": "ALU",
+    "latency": "1",
+    "throughput": "4"
+  },
+  "C.BEQZ": {
+    "category": "BRU",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "C.BNEZ": {
+    "category": "BRU",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "C.J": {
+    "category": "BRU",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "C.JR": {
+    "category": "BRU",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "C.JALR": {
+    "category": "BRU",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "C.LW": {
+    "category": "LOAD",
+    "latency": "2 (L1 hit) / 5 (L2 hit)",
+    "throughput": "2"
+  },
+  "C.LD": {
+    "category": "LOAD",
+    "latency": "2 (L1 hit) / 5 (L2 hit)",
+    "throughput": "2"
+  },
+  "C.LWSP": {
+    "category": "LOAD",
+    "latency": "2 (L1 hit) / 5 (L2 hit)",
+    "throughput": "2"
+  },
+  "C.LDSP": {
+    "category": "LOAD",
+    "latency": "2 (L1 hit) / 5 (L2 hit)",
+    "throughput": "2"
+  },
+  "C.FLD": {
+    "category": "LOAD",
+    "latency": "2 (L1 hit) / 5 (L2 hit)",
+    "throughput": "2"
+  },
+  "C.FLDSP": {
+    "category": "LOAD",
+    "latency": "2 (L1 hit) / 5 (L2 hit)",
+    "throughput": "2"
+  },
+  "C.SW": {
+    "category": "STORE",
+    "latency": "2",
+    "throughput": "1"
+  },
+  "C.SD": {
+    "category": "STORE",
+    "latency": "2",
+    "throughput": "1"
+  },
+  "C.SWSP": {
+    "category": "STORE",
+    "latency": "2",
+    "throughput": "1"
+  },
+  "C.SDSP": {
+    "category": "STORE",
+    "latency": "2",
+    "throughput": "1"
+  },
+  "C.FSD": {
+    "category": "STORE",
+    "latency": "2",
+    "throughput": "1"
+  },
+  "C.FSDSP": {
+    "category": "STORE",
+    "latency": "2",
+    "throughput": "1"
+  },
+  "C.EBREAK": {
+    "category": "SYSTEM",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "CSRRW": {
+    "category": "CSR",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "CSRRS": {
+    "category": "CSR",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "CSRRC": {
+    "category": "CSR",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "CSRRWI": {
+    "category": "CSR",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "CSRRSI": {
+    "category": "CSR",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "CSRRCI": {
+    "category": "CSR",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "(BEHAVIORAL/PMA)": {
+    "category": "—",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "PAUSE": {
+    "category": "SYSTEM",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "SH1ADD": {
+    "category": "BMU",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "SH2ADD": {
+    "category": "BMU",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "SH3ADD": {
+    "category": "BMU",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "ADD.UW": {
+    "category": "BMU",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "SH1ADD.UW": {
+    "category": "BMU",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "SH2ADD.UW": {
+    "category": "BMU",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "SH3ADD.UW": {
+    "category": "BMU",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "SLLI.UW": {
+    "category": "BMU",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "ANDN": {
+    "category": "BMU",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "ORN": {
+    "category": "BMU",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "XNOR": {
+    "category": "BMU",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "MAX": {
+    "category": "BMU",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "MAXU": {
+    "category": "BMU",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "MIN": {
+    "category": "BMU",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "MINU": {
+    "category": "BMU",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "ROL": {
+    "category": "BMU",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "ROLW": {
+    "category": "BMU",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "ROR": {
+    "category": "BMU",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "RORW": {
+    "category": "BMU",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "CLZ": {
+    "category": "BMU",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "CLZW": {
+    "category": "BMU",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "CTZ": {
+    "category": "BMU",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "CTZW": {
+    "category": "BMU",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "CPOP": {
+    "category": "BMU",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "CPOPW": {
+    "category": "BMU",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "SEXT.B": {
+    "category": "BMU",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "SEXT.H": {
+    "category": "BMU",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "ZEXT.H": {
+    "category": "BMU",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "ORC.B": {
+    "category": "BMU",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "REV8": {
+    "category": "BMU",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "RORI": {
+    "category": "BMU",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "RORIW": {
+    "category": "BMU",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "BCLR": {
+    "category": "BMU",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "BEXT": {
+    "category": "BMU",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "BINV": {
+    "category": "BMU",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "BSET": {
+    "category": "BMU",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "BCLRI": {
+    "category": "BMU",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "BEXTI": {
+    "category": "BMU",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "BINVI": {
+    "category": "BMU",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "BSETI": {
+    "category": "BMU",
+    "latency": "1",
+    "throughput": "1"
+  },
+  "CBO.CLEAN": {
+    "category": "SYSTEM",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "CBO.FLUSH": {
+    "category": "SYSTEM",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "CBO.INVAL": {
+    "category": "SYSTEM",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "PREFETCH.I": {
+    "category": "SYSTEM",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "PREFETCH.R": {
+    "category": "SYSTEM",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "PREFETCH.W": {
+    "category": "SYSTEM",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "CBO.ZERO": {
+    "category": "STORE",
+    "latency": "2",
+    "throughput": "1"
+  },
+  "FLH": {
+    "category": "LOAD",
+    "latency": "2 (L1 hit) / 5 (L2 hit)",
+    "throughput": "2"
+  },
+  "FSH": {
+    "category": "STORE",
+    "latency": "2",
+    "throughput": "1"
+  },
+  "FCVT.S.H": {
+    "category": "FMISC",
+    "latency": "2",
+    "throughput": "1"
+  },
+  "FCVT.H.S": {
+    "category": "FMISC",
+    "latency": "2",
+    "throughput": "1"
+  },
+  "FCVT.D.H": {
+    "category": "FMISC",
+    "latency": "2",
+    "throughput": "1"
+  },
+  "FCVT.H.D": {
+    "category": "FMISC",
+    "latency": "2",
+    "throughput": "1"
+  },
+  "FMV.X.H": {
+    "category": "FMV.F2I",
+    "latency": "1 (FU) / 2 (effective, cross-domain)",
+    "throughput": "1"
+  },
+  "FMV.H.X": {
+    "category": "FMV.I2F",
+    "latency": "1 (FU) / 2 (effective, cross-domain)",
+    "throughput": "1"
+  },
+  "FLI.S": {
+    "category": "FMISC",
+    "latency": "2",
+    "throughput": "1"
+  },
+  "FLI.D": {
+    "category": "FMISC",
+    "latency": "2",
+    "throughput": "1"
+  },
+  "FLI.H": {
+    "category": "FMISC",
+    "latency": "2",
+    "throughput": "1"
+  },
+  "FMINM.S": {
+    "category": "FMISC",
+    "latency": "4",
+    "throughput": "1"
+  },
+  "FMAXM.S": {
+    "category": "FMISC",
+    "latency": "4",
+    "throughput": "1"
+  },
+  "FROUND.S": {
+    "category": "FMISC",
+    "latency": "2",
+    "throughput": "1"
+  },
+  "FROUNDNX.S": {
+    "category": "FMISC",
+    "latency": "2",
+    "throughput": "1"
+  },
+  "FMINM.D": {
+    "category": "FMISC",
+    "latency": "4",
+    "throughput": "1"
+  },
+  "FMAXM.D": {
+    "category": "FMISC",
+    "latency": "4",
+    "throughput": "1"
+  },
+  "FROUND.D": {
+    "category": "FMISC",
+    "latency": "2",
+    "throughput": "1"
+  },
+  "FROUNDNX.D": {
+    "category": "FMISC",
+    "latency": "2",
+    "throughput": "1"
+  },
+  "FMINM.H": {
+    "category": "FMISC",
+    "latency": "4",
+    "throughput": "1"
+  },
+  "FMAXM.H": {
+    "category": "FMISC",
+    "latency": "4",
+    "throughput": "1"
+  },
+  "FROUND.H": {
+    "category": "FMISC",
+    "latency": "2",
+    "throughput": "1"
+  },
+  "FROUNDNX.H": {
+    "category": "FMISC",
+    "latency": "2",
+    "throughput": "1"
+  },
+  "FCVTMOD.W.D": {
+    "category": "FCVT.F2I",
+    "latency": "2 (FU) / 3 (effective, cross-domain)",
+    "throughput": "1"
+  },
+  "FLEQ.S": {
+    "category": "FCMP",
+    "latency": "4 (FU) / 5 (effective, cross-domain)",
+    "throughput": "1"
+  },
+  "FLTQ.S": {
+    "category": "FCMP",
+    "latency": "4 (FU) / 5 (effective, cross-domain)",
+    "throughput": "1"
+  },
+  "FLEQ.D": {
+    "category": "FCMP",
+    "latency": "4 (FU) / 5 (effective, cross-domain)",
+    "throughput": "1"
+  },
+  "FLTQ.D": {
+    "category": "FCMP",
+    "latency": "4 (FU) / 5 (effective, cross-domain)",
+    "throughput": "1"
+  },
+  "FLEQ.H": {
+    "category": "FCMP",
+    "latency": "4 (FU) / 5 (effective, cross-domain)",
+    "throughput": "1"
+  },
+  "FLTQ.H": {
+    "category": "FCMP",
+    "latency": "4 (FU) / 5 (effective, cross-domain)",
+    "throughput": "1"
+  },
+  "CZERO.EQZ": {
+    "category": "ALU",
+    "latency": "1",
+    "throughput": "4"
+  },
+  "CZERO.NEZ": {
+    "category": "ALU",
+    "latency": "1",
+    "throughput": "4"
+  },
+  "NTL.P1": {
+    "category": "SYSTEM",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "NTL.PALL": {
+    "category": "SYSTEM",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "NTL.S1": {
+    "category": "SYSTEM",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "NTL.ALL": {
+    "category": "SYSTEM",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "MOP.R.0~31": {
+    "category": "ALU",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "MOP.RR.0~7": {
+    "category": "ALU",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "C.MOP.N": {
+    "category": "ALU",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "C.LBU": {
+    "category": "LOAD",
+    "latency": "2 (L1 hit) / 5 (L2 hit)",
+    "throughput": "2"
+  },
+  "C.LHU": {
+    "category": "LOAD",
+    "latency": "2 (L1 hit) / 5 (L2 hit)",
+    "throughput": "2"
+  },
+  "C.LH": {
+    "category": "LOAD",
+    "latency": "2 (L1 hit) / 5 (L2 hit)",
+    "throughput": "2"
+  },
+  "C.SB": {
+    "category": "STORE",
+    "latency": "2",
+    "throughput": "1"
+  },
+  "C.SH": {
+    "category": "STORE",
+    "latency": "2",
+    "throughput": "1"
+  },
+  "C.ZEXT.B": {
+    "category": "ALU",
+    "latency": "1",
+    "throughput": "4"
+  },
+  "C.SEXT.B": {
+    "category": "ALU",
+    "latency": "1",
+    "throughput": "4"
+  },
+  "C.ZEXT.H": {
+    "category": "ALU",
+    "latency": "1",
+    "throughput": "4"
+  },
+  "C.SEXT.H": {
+    "category": "ALU",
+    "latency": "1",
+    "throughput": "4"
+  },
+  "C.ZEXT.W": {
+    "category": "ALU",
+    "latency": "1",
+    "throughput": "4"
+  },
+  "C.NOT": {
+    "category": "ALU",
+    "latency": "1",
+    "throughput": "4"
+  },
+  "C.MUL": {
+    "category": "MUL",
+    "latency": "3",
+    "throughput": "1"
+  },
+  "WRS.NTO": {
+    "category": "SYSTEM",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "WRS.STO": {
+    "category": "SYSTEM",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "FENCE.I": {
+    "category": "SYSTEM",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "SINVAL.VMA": {
+    "category": "SYSTEM",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "SFENCE.W.INVAL": {
+    "category": "SYSTEM",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "SFENCE.INVAL.IR": {
+    "category": "SYSTEM",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "HINVAL.VVMA": {
+    "category": "SYSTEM",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "HINVAL.GVMA": {
+    "category": "SYSTEM",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "HFENCE.VVMA": {
+    "category": "SYSTEM",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "HFENCE.GVMA": {
+    "category": "SYSTEM",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "HLV.B": {
+    "category": "LOAD",
+    "latency": "2 (L1 hit) / 5 (L2 hit)",
+    "throughput": "2"
+  },
+  "HLV.BU": {
+    "category": "LOAD",
+    "latency": "2 (L1 hit) / 5 (L2 hit)",
+    "throughput": "2"
+  },
+  "HLV.H": {
+    "category": "LOAD",
+    "latency": "2 (L1 hit) / 5 (L2 hit)",
+    "throughput": "2"
+  },
+  "HLV.HU": {
+    "category": "LOAD",
+    "latency": "2 (L1 hit) / 5 (L2 hit)",
+    "throughput": "2"
+  },
+  "HLV.W": {
+    "category": "LOAD",
+    "latency": "2 (L1 hit) / 5 (L2 hit)",
+    "throughput": "2"
+  },
+  "HLV.WU": {
+    "category": "LOAD",
+    "latency": "2 (L1 hit) / 5 (L2 hit)",
+    "throughput": "2"
+  },
+  "HLV.D": {
+    "category": "LOAD",
+    "latency": "2 (L1 hit) / 5 (L2 hit)",
+    "throughput": "2"
+  },
+  "HLVX.HU": {
+    "category": "LOAD",
+    "latency": "2 (L1 hit) / 5 (L2 hit)",
+    "throughput": "2"
+  },
+  "HLVX.WU": {
+    "category": "LOAD",
+    "latency": "2 (L1 hit) / 5 (L2 hit)",
+    "throughput": "2"
+  },
+  "HSV.B": {
+    "category": "STORE",
+    "latency": "2",
+    "throughput": "1"
+  },
+  "HSV.H": {
+    "category": "STORE",
+    "latency": "2",
+    "throughput": "1"
+  },
+  "HSV.W": {
+    "category": "STORE",
+    "latency": "2",
+    "throughput": "1"
+  },
+  "HSV.D": {
+    "category": "STORE",
+    "latency": "2",
+    "throughput": "1"
+  },
+  "VSETVLI": {
+    "category": "VEC_IF",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VSETIVLI": {
+    "category": "VEC_IF",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VSETVL": {
+    "category": "VEC_IF",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMV.X.S": {
+    "category": "VEC_IF",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMV.S.X": {
+    "category": "VEC_IF",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFMV.F.S": {
+    "category": "VEC_IF",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFMV.S.F": {
+    "category": "VEC_IF",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VLE{EEW}.V": {
+    "category": "VEC_MEM",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VLSE{EEW}.V": {
+    "category": "VEC_MEM",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VLUXEI{EEW}.V": {
+    "category": "VEC_MEM",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VLOXEI{EEW}.V": {
+    "category": "VEC_MEM",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VL{N}RE{EEW}.V": {
+    "category": "VEC_MEM",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VLM.V": {
+    "category": "VEC_MEM",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VLSEG{N}E{EEW}.V": {
+    "category": "VEC_MEM",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VLSSEG{N}E{EEW}.V": {
+    "category": "VEC_MEM",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VLUXSEG{N}EI{EEW}.V": {
+    "category": "VEC_MEM",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VLOXSEG{N}EI{EEW}.V": {
+    "category": "VEC_MEM",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VSE{EEW}.V": {
+    "category": "VEC_MEM",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VSSE{EEW}.V": {
+    "category": "VEC_MEM",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VSUXEI{EEW}.V": {
+    "category": "VEC_MEM",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VSOXEI{EEW}.V": {
+    "category": "VEC_MEM",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VS{N}R.V": {
+    "category": "VEC_MEM",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VSM.V": {
+    "category": "VEC_MEM",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VSSEG{N}E{EEW}.V": {
+    "category": "VEC_MEM",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VSSSEG{N}E{EEW}.V": {
+    "category": "VEC_MEM",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VSUXSEG{N}EI{EEW}.V": {
+    "category": "VEC_MEM",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VSOXSEG{N}EI{EEW}.V": {
+    "category": "VEC_MEM",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VADD.VV": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VADD.VX": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VSUB.VV": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VSUB.VX": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VAND.VV": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VAND.VX": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VOR.VV": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VOR.VX": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VXOR.VV": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VXOR.VX": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VSLL.VV": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VSLL.VX": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VSRL.VV": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VSRL.VX": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VSRA.VV": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VSRA.VX": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMSEQ.VV": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMSEQ.VX": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMSNE.VV": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMSNE.VX": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMSLTU.VV": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMSLTU.VX": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMSLT.VV": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMSLT.VX": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMSLEU.VV": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMSLEU.VX": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMSLE.VV": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMSLE.VX": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMINU.VV": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMINU.VX": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMIN.VV": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMIN.VX": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMAXU.VV": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMAXU.VX": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMAX.VV": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMAX.VX": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMUL.VV": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMUL.VX": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMULH.VV": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMULH.VX": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMULHU.VV": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMULHU.VX": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMULHSU.VV": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMULHSU.VX": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VDIVU.VV": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VDIVU.VX": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VDIV.VV": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VDIV.VX": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VREMU.VV": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VREMU.VX": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VREM.VV": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VREM.VX": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VRSUB.VX": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMSGTU.VX": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMSGT.VX": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMACC.VV": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMACC.VX": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VNMSAC.VV": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VNMSAC.VX": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMADD.VV": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMADD.VX": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VNMSUB.VV": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VNMSUB.VX": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VADD.VI": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VRSUB.VI": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VAND.VI": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VOR.VI": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VXOR.VI": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VSLL.VI": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VSRL.VI": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VSRA.VI": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMSEQ.VI": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMSNE.VI": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMSLEU.VI": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMSLE.VI": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMSGTU.VI": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMSGT.VI": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VWADDU.VV": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VWADDU.VX": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VWADD.VV": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VWADD.VX": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VWSUBU.VV": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VWSUBU.VX": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VWSUB.VV": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VWSUB.VX": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VWMUL.VV": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VWMUL.VX": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VWMULU.VV": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VWMULU.VX": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VWMULSU.VV": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VWMULSU.VX": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VWADDU.WV": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VWADDU.WX": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VWADD.WV": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VWADD.WX": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VWSUBU.WV": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VWSUBU.WX": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VWSUB.WV": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VWSUB.WX": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VWMACCU.VV": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VWMACCU.VX": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VWMACC.VV": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VWMACC.VX": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VWMACCSU.VV": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VWMACCSU.VX": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VWMACCUS.VX": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VNSRL.WV": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VNSRL.WX": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VNSRL.WI": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VNSRA.WV": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VNSRA.WX": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VNSRA.WI": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VZEXT.VF2": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VSEXT.VF2": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VZEXT.VF4": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VSEXT.VF4": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VZEXT.VF8": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VSEXT.VF8": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VADC.VVM": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VADC.VXM": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VADC.VIM": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMADC (VARIANTS)": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VSBC.VVM": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VSBC.VXM": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMSBC (VARIANTS)": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMERGE.VVM": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMERGE.VXM": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMERGE.VIM": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMV.V.V": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMV.V.X": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMV.V.I": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VSADDU.VV": {
+    "category": "VEC_FXP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VSADDU.VX": {
+    "category": "VEC_FXP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VSADD.VV": {
+    "category": "VEC_FXP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VSADD.VX": {
+    "category": "VEC_FXP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VSSUBU.VV": {
+    "category": "VEC_FXP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VSSUBU.VX": {
+    "category": "VEC_FXP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VSSUB.VV": {
+    "category": "VEC_FXP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VSSUB.VX": {
+    "category": "VEC_FXP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VAADDU.VV": {
+    "category": "VEC_FXP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VAADDU.VX": {
+    "category": "VEC_FXP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VAADD.VV": {
+    "category": "VEC_FXP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VAADD.VX": {
+    "category": "VEC_FXP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VASUBU.VV": {
+    "category": "VEC_FXP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VASUBU.VX": {
+    "category": "VEC_FXP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VASUB.VV": {
+    "category": "VEC_FXP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VASUB.VX": {
+    "category": "VEC_FXP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VSMUL.VV": {
+    "category": "VEC_FXP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VSMUL.VX": {
+    "category": "VEC_FXP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VSADDU.VI": {
+    "category": "VEC_FXP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VSADD.VI": {
+    "category": "VEC_FXP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VSSRL.VV": {
+    "category": "VEC_FXP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VSSRL.VX": {
+    "category": "VEC_FXP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VSSRL.VI": {
+    "category": "VEC_FXP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VSSRA.VV": {
+    "category": "VEC_FXP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VSSRA.VX": {
+    "category": "VEC_FXP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VSSRA.VI": {
+    "category": "VEC_FXP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VNCLIPU.WV": {
+    "category": "VEC_FXP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VNCLIPU.WX": {
+    "category": "VEC_FXP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VNCLIPU.WI": {
+    "category": "VEC_FXP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VNCLIP.WV": {
+    "category": "VEC_FXP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VNCLIP.WX": {
+    "category": "VEC_FXP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VNCLIP.WI": {
+    "category": "VEC_FXP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFADD.VV": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFADD.VF": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFSUB.VV": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFSUB.VF": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFMUL.VV": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFMUL.VF": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFDIV.VV": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFDIV.VF": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFMIN.VV": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFMIN.VF": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFMAX.VV": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFMAX.VF": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFSGNJ.VV": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFSGNJ.VF": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFSGNJN.VV": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFSGNJN.VF": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFSGNJX.VV": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFSGNJX.VF": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFMACC.VV": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFMACC.VF": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFNMACC.VV": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFNMACC.VF": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFMSAC.VV": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFMSAC.VF": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFNMSAC.VV": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFNMSAC.VF": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFMADD.VV": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFMADD.VF": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFNMADD.VV": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFNMADD.VF": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFMSUB.VV": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFMSUB.VF": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFNMSUB.VV": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFNMSUB.VF": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFRSUB.VF": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFRDIV.VF": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFWADD.VV": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFWADD.VF": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFWSUB.VV": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFWSUB.VF": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFWMUL.VV": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFWMUL.VF": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFWADD.WV": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFWADD.WF": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFWSUB.WV": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFWSUB.WF": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFWMACC.VV": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFWMACC.VF": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFWNMACC.VV": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFWNMACC.VF": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFWMSAC.VV": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFWMSAC.VF": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFWNMSAC.VV": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFWNMSAC.VF": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFSQRT.V": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFRSQRT7.V": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFREC7.V": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFCLASS.V": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMFEQ.VV": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMFEQ.VF": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMFNE.VV": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMFNE.VF": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMFLT.VV": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMFLT.VF": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMFLE.VV": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMFLE.VF": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMFGT.VF": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMFGE.VF": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFMERGE.VFM": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFMV.V.F": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFCVT.*.V (6 FORMS)": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFWCVT.*.V (7 FORMS)": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFNCVT.*.W (8 FORMS)": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VREDSUM.VS": {
+    "category": "VEC_RED",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VREDMAXU.VS": {
+    "category": "VEC_RED",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VREDMAX.VS": {
+    "category": "VEC_RED",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VREDMINU.VS": {
+    "category": "VEC_RED",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VREDMIN.VS": {
+    "category": "VEC_RED",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VREDAND.VS": {
+    "category": "VEC_RED",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VREDOR.VS": {
+    "category": "VEC_RED",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VREDXOR.VS": {
+    "category": "VEC_RED",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VWREDSUMU.VS": {
+    "category": "VEC_RED",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VWREDSUM.VS": {
+    "category": "VEC_RED",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFREDOSUM.VS": {
+    "category": "VEC_RED",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFREDUSUM.VS": {
+    "category": "VEC_RED",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFREDMAX.VS": {
+    "category": "VEC_RED",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFREDMIN.VS": {
+    "category": "VEC_RED",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFWREDOSUM.VS": {
+    "category": "VEC_RED",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFWREDUSUM.VS": {
+    "category": "VEC_RED",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMAND.MM": {
+    "category": "VEC_MSK",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMNAND.MM": {
+    "category": "VEC_MSK",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMANDN.MM": {
+    "category": "VEC_MSK",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMXOR.MM": {
+    "category": "VEC_MSK",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMOR.MM": {
+    "category": "VEC_MSK",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMNOR.MM": {
+    "category": "VEC_MSK",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMORN.MM": {
+    "category": "VEC_MSK",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMXNOR.MM": {
+    "category": "VEC_MSK",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VCPOP.M": {
+    "category": "VEC_MSK",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFIRST.M": {
+    "category": "VEC_MSK",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMSBF.M": {
+    "category": "VEC_MSK",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMSIF.M": {
+    "category": "VEC_MSK",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMSOF.M": {
+    "category": "VEC_MSK",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VIOTA.M": {
+    "category": "VEC_MSK",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VID.V": {
+    "category": "VEC_MSK",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VSLIDEUP.VX": {
+    "category": "VEC_PMT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VSLIDEUP.VI": {
+    "category": "VEC_PMT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VSLIDEDOWN.VX": {
+    "category": "VEC_PMT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VSLIDEDOWN.VI": {
+    "category": "VEC_PMT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VSLIDE1UP.VX": {
+    "category": "VEC_PMT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFSLIDE1UP.VF": {
+    "category": "VEC_PMT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VSLIDE1DOWN.VX": {
+    "category": "VEC_PMT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFSLIDE1DOWN.VF": {
+    "category": "VEC_PMT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VRGATHER.VV": {
+    "category": "VEC_PMT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VRGATHER.VX": {
+    "category": "VEC_PMT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VRGATHER.VI": {
+    "category": "VEC_PMT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VRGATHEREI16.VV": {
+    "category": "VEC_PMT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VCOMPRESS.VM": {
+    "category": "VEC_PMT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMV1R.V": {
+    "category": "VEC_PMT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMV2R.V": {
+    "category": "VEC_PMT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMV4R.V": {
+    "category": "VEC_PMT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VMV8R.V": {
+    "category": "VEC_PMT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFWCVT.F.F.V (H→S)": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VFNCVT.F.F.W (S→H)": {
+    "category": "VEC_FP",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VANDN.VV": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VANDN.VX": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VBREV.V": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VBREV8.V": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VREV8.V": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VCLZ.V": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VCTZ.V": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VCPOP.V": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VROL.VV": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VROL.VX": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VROR.VV": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VROR.VX": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VROR.VI": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VWSLL.VV": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VWSLL.VX": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  },
+  "VWSLL.VI": {
+    "category": "VEC_INT",
+    "latency": "—",
+    "throughput": "—"
+  }
+}

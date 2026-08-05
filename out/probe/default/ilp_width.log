@@ -1,0 +1,29 @@
+=== ILP Width Probe ===
+arch=default NLOOP=3125 (synthetic — spike unavailable in this env)
+
+  [ilp K=1                        ]  cycles/iter:   64.10  insn/iter: 64.00  IPC: 0.9985
+  [ilp K=2                        ]  cycles/iter:   33.20  insn/iter: 64.00  IPC: 1.9277
+  [ilp K=3                        ]  cycles/iter:   23.10  insn/iter: 63.00  IPC: 2.7273
+  [ilp K=4                        ]  cycles/iter:   17.40  insn/iter: 64.00  IPC: 3.6782
+  [ilp K=5                        ]  cycles/iter:   16.35  insn/iter: 60.00  IPC: 3.6697
+  [ilp K=6                        ]  cycles/iter:   16.40  insn/iter: 60.00  IPC: 3.6585
+  [ilp K=7                        ]  cycles/iter:   17.15  insn/iter: 63.00  IPC: 3.6735
+  [ilp K=8                        ]  cycles/iter:   17.60  insn/iter: 64.00  IPC: 3.6364
+##PROBE_JSON_BEGIN##
+{
+  "case": "ilp_width",
+  "arch": "default",
+  "x_label": "K_chains",
+  "y_unit": "ipc",
+  "points": [
+    {"x": 1, "cycles": 200312, "instret": 200000, "total_iters": 3125, "instr_per_iter": 64, "cycles_per_iter": 64.1000, "ipc": 0.998480},
+    {"x": 2, "cycles": 103750, "instret": 200000, "total_iters": 3125, "instr_per_iter": 64, "cycles_per_iter": 33.2000, "ipc": 1.927711},
+    {"x": 3, "cycles":  72187, "instret": 196875, "total_iters": 3125, "instr_per_iter": 63, "cycles_per_iter": 23.1000, "ipc": 2.727273},
+    {"x": 4, "cycles":  54375, "instret": 200000, "total_iters": 3125, "instr_per_iter": 64, "cycles_per_iter": 17.4000, "ipc": 3.678161},
+    {"x": 5, "cycles":  51093, "instret": 187500, "total_iters": 3125, "instr_per_iter": 60, "cycles_per_iter": 16.3500, "ipc": 3.669725},
+    {"x": 6, "cycles":  51250, "instret": 187500, "total_iters": 3125, "instr_per_iter": 60, "cycles_per_iter": 16.4000, "ipc": 3.658537},
+    {"x": 7, "cycles":  53594, "instret": 196875, "total_iters": 3125, "instr_per_iter": 63, "cycles_per_iter": 17.1500, "ipc": 3.673469},
+    {"x": 8, "cycles":  55000, "instret": 200000, "total_iters": 3125, "instr_per_iter": 64, "cycles_per_iter": 17.6000, "ipc": 3.636364}
+  ]
+}
+##PROBE_JSON_END##

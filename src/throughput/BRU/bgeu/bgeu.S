@@ -3,7 +3,7 @@
 # --- BGEU: branch if rs1>=rs2 unsigned ---
 # Dispatch: BRU → INT Pipe 1
 # Expected throughput=1, latency=1
-# 1 independent insns × .rept 100 = 100 insns/loop
+# 2 executed insns × .rept 100 = 200 insns/loop
 
     .global test_bgeu
     .balign 4
@@ -14,7 +14,8 @@ test_bgeu:
 .L_bgeu_loop:
     beqz t3, .L_bgeu_done
     .rept 100
-    bgeu  a6, a5, .+4
+    bgeu  a6, a5, .+6
+    c.nop
     .endr
     addi t3, t3, -1
     j    .L_bgeu_loop

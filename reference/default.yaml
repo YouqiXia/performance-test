@@ -1,0 +1,27 @@
+# Reference values for ARCH=default
+#
+# Each entry is a probe case name → expected parameter value.
+# scripts/probe_report.py reads this file and compares against the JSON
+# emitted by bin/linux/probe/<case> (or bin/spike/probe/<case>).
+#
+# Fields per case:
+#   expected   — target integer value of the detected parameter
+#   tolerance  — allowed absolute deviation (same unit as expected)
+#   detector   — plateau | knee | step
+#                plateau: find largest X at which y stops improving
+#                knee:    find largest X before y degrades sharply
+#                step:    find X where y jumps (stepwise)
+#   y_field    — which JSON field per point to analyze (ipc|cycles_per_iter)
+#   notes      — free-text, shown in report
+#
+# Values here are initial guesses; update after first real measurement run.
+
+arch: default
+
+cases:
+  ilp_width:
+    expected: 4
+    tolerance: 0
+    detector: plateau
+    y_field: ipc
+    notes: "4-wide dispatch OoO core (per arch/default.h header comment)"

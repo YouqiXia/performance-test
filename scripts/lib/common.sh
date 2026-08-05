@@ -40,7 +40,8 @@ RISCV_TOOLCHAIN="${RISCV_TOOLCHAIN:-/opt/riscv}"
 MARCH="${MARCH:-rv64gc}"
 ARCH="${ARCH:-default}"
 RISCV_ELF_TOOLCHAIN="${RISCV_ELF_TOOLCHAIN:-$RISCV_TOOLCHAIN}"
-LINUX_CC="$RISCV_TOOLCHAIN/bin/riscv64-unknown-linux-gnu-gcc"
+CROSS_COMPILE="${CROSS_COMPILE-riscv64-unknown-linux-gnu-}"
+LINUX_CC="$RISCV_TOOLCHAIN/bin/${CROSS_COMPILE}gcc"
 ELF_CC="$RISCV_ELF_TOOLCHAIN/bin/riscv64-unknown-elf-gcc"
 
 # ── install/ paths (populated by uarch build thirdparty) ─────────

@@ -1,7 +1,7 @@
 /* Throughput test: BLT tput */
 #include <stdio.h>
 #include <stdint.h>
-#define NLOOP  CALC_NLOOP(100)
+#define NLOOP  CALC_NLOOP(200)
 #include "perf_helpers.h"
 
 extern void test_blt(uint64_t nloop);
@@ -15,7 +15,7 @@ int main(void)
     test_blt(NLOOP);
     perf_stop(&ctx, &cycles, &instret);
     perf_print("BLT tput", cycles, instret,
-              (uint64_t)NLOOP * 100, 1);
+              (uint64_t)NLOOP * 200, 1);
     perf_close(&ctx);
     return 0;
 }

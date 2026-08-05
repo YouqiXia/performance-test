@@ -32,17 +32,15 @@ perf_ctx_t perf_init(void)
     ctx.fd_instret = -1;
 
 #ifdef CHECKPOINT
-    /* Preload all ELF pages then trigger checkpoint.
-       Must run BEFORE perf_event_open — on spike+pk, perf_event_open fails
-       and would early-return, skipping this block.
-       Restore resumes here — warmup and measurement run normally. */
+    /* Preload all ELF pages before checkpointing.
+       Must still run before perf_event_open — on spike+pk, perf_event_open
+       fails and would otherwise skip the page touch. */
     {
         extern char __ehdr_start[], _end[];
         volatile char dummy;
         for (char *p = __ehdr_start; p < _end; p += 4096)
             dummy = *p;
     }
-    __asm__ volatile ("csrw 0x800, x0");
 #endif
 
 #ifdef HAS_PERF_EVENT
@@ -64,21 +62,24 @@ perf_ctx_t perf_init(void)
         use_fallback = 1;
         ctx.fd_cycles = -1;
         ctx.fd_instret = -1;
-        return ctx;
-    }
-
-    /* instructions */
-    pe.config = PERF_COUNT_HW_INSTRUCTIONS;
-    ctx.fd_instret = sys_perf_event_open(&pe, 0, -1, -1, 0);
-    if (ctx.fd_instret < 0) {
-        fprintf(stderr, "[perf] instructions counter failed, falling back\n");
-        close(ctx.fd_cycles);
-        use_fallback = 1;
-        ctx.fd_cycles = -1;
-        ctx.fd_instret = -1;
+    } else {
+        /* instructions */
+        pe.config = PERF_COUNT_HW_INSTRUCTIONS;
+        ctx.fd_instret = sys_perf_event_open(&pe, 0, -1, -1, 0);
+        if (ctx.fd_instret < 0) {
+            fprintf(stderr, "[perf] instructions counter failed, falling back\n");
+            close(ctx.fd_cycles);
+            use_fallback = 1;
+            ctx.fd_cycles = -1;
+            ctx.fd_instret = -1;
+        }
     }
 #else
     fprintf(stderr, "[perf] spike mode: using rdcycle/rdinstret\n");
+#endif
+
+#ifdef CHECKPOINT
+    __asm__ volatile ("csrw 0x800, x0");
 #endif
 
     return ctx;

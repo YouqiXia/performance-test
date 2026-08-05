@@ -49,13 +49,15 @@ checkpoint 触发 ELF 页面预加载 + CSR 0x800 快照写入，是 one-shot �
 ```bash
 # env/default.env — 纯 KEY=VALUE，无 export、无条件逻辑
 RISCV_TOOLCHAIN=/opt/riscv
+CROSS_COMPILE=riscv64-unknown-linux-gnu-
 MARCH=rv64gcv_zba_zbb_zbs_zicbom_zicbop_zicntr_zifencei_zihintpause_zihintntl
 ARCH=default
 ```
 
 - Makefile：`-include env/$(or $(UARCH_ENV),default).env`
 - Shell：`source "$PROJECT_DIR/env/${UARCH_ENV:-default}.env"`
-- 工具链推导：linux/spike 用 `linux-gnu-gcc`，pk 构建用 `elf-gcc`，均从 `RISCV_TOOLCHAIN` 拼路径
+- 工具链推导：linux/spike 的 `LINUX_CC=$RISCV_TOOLCHAIN/bin/${CROSS_COMPILE}gcc`，pk 构建用 `elf-gcc`（固定前缀）
+- **Native RISC-V 主机**：`RISCV_TOOLCHAIN=/usr` + `CROSS_COMPILE=`（空串），`LINUX_CC` 解析为 `/usr/bin/gcc`；shell 侧用 `${CROSS_COMPILE-...}`（无冒号）保证显式空值不被默认值覆盖
 
 ### install/ 路径
 

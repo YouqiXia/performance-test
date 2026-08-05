@@ -3,7 +3,7 @@
 # --- JAL: rd=PC+4; PC+=off ---
 # Dispatch: BRU → INT Pipe 1
 # Expected throughput=1, latency=1
-# 1 independent insns × .rept 100 = 100 insns/loop
+# 1 executed insn × .rept 100 = 100 insns/loop
 
     .global test_jal
     .balign 4
@@ -12,7 +12,8 @@ test_jal:
 .L_jal_loop:
     beqz t3, .L_jal_done
     .rept 100
-    jal  t0, .+4
+    jal  t0, .+6
+    c.nop
     .endr
     addi t3, t3, -1
     j    .L_jal_loop

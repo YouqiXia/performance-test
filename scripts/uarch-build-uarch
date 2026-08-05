@@ -16,7 +16,8 @@ Targets:
 Options:
   --arch <name>    Override arch profile (default: from env)
   --clean          Clean build artifacts instead of building
-  --jobs <N>       Parallel checkpoint jobs (default: 8, checkpoint only)
+  --jobs <N>       Parallel jobs for both make compilation and spike
+                   checkpoint generation (default: 8)
 
 Examples:
   uarch build uarch spike
@@ -69,8 +70,8 @@ build_target() {
         return
     fi
 
-    echo -e "${BOLD}Building uarch${RESET} [target=$target, arch=$ARCH, bin=$bindir]"
-    make "$make_target" ARCH="$ARCH"
+    echo -e "${BOLD}Building uarch${RESET} [target=$target, arch=$ARCH, bin=$bindir, jobs=$CKPT_JOBS]"
+    make -j"$CKPT_JOBS" "$make_target" ARCH="$ARCH"
     echo ""
 
     local count

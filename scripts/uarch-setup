@@ -36,6 +36,7 @@ echo ""
 echo "=== Environment ==="
 echo "  env file:        env/${_uarch_env}.env"
 echo "  RISCV_TOOLCHAIN: $RISCV_TOOLCHAIN"
+echo "  CROSS_COMPILE:   ${CROSS_COMPILE:-(empty — native build)}"
 echo "  MARCH:           $MARCH"
 echo "  ARCH:            $ARCH"
 
@@ -51,9 +52,9 @@ else
 fi
 
 if [[ -x "$LINUX_CC" ]]; then
-    ok "linux-gnu-gcc: $LINUX_CC"
+    ok "linux CC: $LINUX_CC"
 else
-    fail "linux-gnu-gcc not found: $LINUX_CC"
+    fail "linux CC not found: $LINUX_CC"
     ERRORS=$((ERRORS + 1))
 fi
 

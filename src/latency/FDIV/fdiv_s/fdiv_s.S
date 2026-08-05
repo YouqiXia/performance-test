@@ -2,7 +2,7 @@
 
 # --- FDIV.S ---
 # FDIV.S self-chain, ft1=1.0 keeps value unchanged
-# Construction: .rept 20, insn_per_iter=1
+# Construction: .rept 1000, insn_per_iter=1
     .global test_fdiv_s
     .balign 4
 test_fdiv_s:
@@ -14,7 +14,7 @@ test_fdiv_s:
     fmv.w.x ft1, t5
 .L_fdiv_s_loop:
     beqz t3, .L_fdiv_s_done
-    .rept 20
+    .rept 1000
     fdiv.s  ft0, ft0, ft1
     .endr
     addi t3, t3, -1

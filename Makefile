@@ -12,6 +12,7 @@
 
 RISCV_TOOLCHAIN     ?= /opt/riscv
 RISCV_ELF_TOOLCHAIN ?= $(RISCV_TOOLCHAIN)
+CROSS_COMPILE       ?= riscv64-unknown-linux-gnu-
 MARCH               ?= rv64gc
 ARCH                ?= default
 ARCH_HDR        := arch/$(ARCH).h
@@ -21,7 +22,7 @@ $(error Unknown ARCH='$(ARCH)' — missing $(ARCH_HDR). See arch/template.h)
 endif
 
 # --- toolchain derivation ---
-LINUX_CC := $(RISCV_TOOLCHAIN)/bin/riscv64-unknown-linux-gnu-gcc
+LINUX_CC := $(RISCV_TOOLCHAIN)/bin/$(CROSS_COMPILE)gcc
 ELF_CC   := $(RISCV_ELF_TOOLCHAIN)/bin/riscv64-unknown-elf-gcc
 
 # --- install/ paths (populated by uarch build thirdparty) ---
