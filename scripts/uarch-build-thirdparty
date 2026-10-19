@@ -92,7 +92,11 @@ build_pk() {
         ../configure \
             --prefix="$install_dir" \
             --host=riscv64-unknown-elf \
-            CC="$ELF_CC"
+            CC="$ELF_CC" \
+            AR="${ELF_CC%gcc}ar" \
+            RANLIB="${ELF_CC%gcc}ranlib" \
+            READELF="${ELF_CC%gcc}readelf" \
+            OBJCOPY="${ELF_CC%gcc}objcopy"
     fi
 
     make -j"$MAKE_JOBS"

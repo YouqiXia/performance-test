@@ -58,7 +58,7 @@ case "$PRESET" in
         ;;
     checkpoint)
         JSON='{
-    "command": "{spike} --isa={march} --restore={checkpoint} {pk} {elf}",
+    "command": "{spike} --isa={march} --load={checkpoint} {pk} {elf}",
     "bindir":  "bin/checkpoint",
     "jobs":    4,
     "timeout": 1,

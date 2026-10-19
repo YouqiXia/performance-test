@@ -19,6 +19,9 @@ Options:
   --jobs <N>       Parallel jobs for both make compilation and spike
                    checkpoint generation (default: 8)
 
+Checkpoint builds always use a forced rebuild and overwrite the matching
+checkpoint files under checkpoints/.
+
 Examples:
   uarch build uarch spike
   uarch build uarch linux --arch sunchip
@@ -71,7 +74,13 @@ build_target() {
     fi
 
     echo -e "${BOLD}Building uarch${RESET} [target=$target, arch=$ARCH, bin=$bindir, jobs=$CKPT_JOBS]"
-    make -j"$CKPT_JOBS" "$make_target" ARCH="$ARCH"
+    if [[ "$target" == "checkpoint" ]]; then
+        # The pattern rule does not list sibling .S files as prerequisites.
+        # Force the checkpoint ELF rebuild so edited assembly is included.
+        make -B -j"$CKPT_JOBS" "$make_target" ARCH="$ARCH"
+    else
+        make -j"$CKPT_JOBS" "$make_target" ARCH="$ARCH"
+    fi
     echo ""
 
     local count
@@ -102,11 +111,6 @@ generate_checkpoints() {
 
         mkdir -p "$ckpt_dir"
 
-        if [[ -f "${ckpt_path}.bootram" ]]; then
-            echo "SKIP  $rel"
-            continue
-        fi
-
         echo "$elf"
     done | xargs -P "$CKPT_JOBS" -I {} bash -c '
         elf="$1"
@@ -114,6 +118,15 @@ generate_checkpoints() {
         ckpt_name="${rel##*/}"
         ckpt_dir="'"$ckpt_out_dir"'/${rel%/*}"
         ckpt_path="${ckpt_dir}/${ckpt_name}"
+        # Always replace the complete checkpoint. Remove all compression
+        # variants first so restore cannot see multiple mainram files.
+        rm -f "${ckpt_path}.bootram" \
+              "${ckpt_path}.re_regs" \
+              "${ckpt_path}.htif" \
+              "${ckpt_path}.mainram" \
+              "${ckpt_path}.mainram.zip" \
+              "${ckpt_path}.mainram.zst" \
+              "${ckpt_path}.log"
         if '"$SPIKE_BIN"' --isa='"$MARCH"' -m64 --compress-zstd --save="$ckpt_path" '"$SPIKE_PK"' "$elf" \
             </dev/null >/dev/null 2>"${ckpt_path}.log"; then
             if [[ -f "${ckpt_path}.bootram" ]]; then

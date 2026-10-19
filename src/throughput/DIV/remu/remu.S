@@ -10,7 +10,7 @@
 test_remu:
     mv   t3, a0
     li  a5, 42
-    li  a6, 7
+    li  a6, 1
 .L_remu_loop:
     beqz t3, .L_remu_done
     .rept 5

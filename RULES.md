@@ -78,7 +78,7 @@ source env/default.env
 - `uarch build uarch spike` 只编 `bin/spike/`
 - `uarch build uarch checkpoint` 会先编 `bin/checkpoint/`，再生成 `checkpoints/`
 - `uarch init spike` 生成 `"{spike} --isa={march} {pk} {elf}"` 形式的配置
-- `uarch init checkpoint` 生成 `"{spike} --isa={march} --restore={checkpoint} {pk} {elf}"` 形式的配置
+- `uarch init checkpoint` 生成使用当前 Spike `--load={checkpoint}` 语法的配置
 - `uarch run` 不带配置时默认跑 `bin/linux/`
 - `uarch check` 比对 `results.csv` 和参考值
 - `uarch update` 从 Excel 刷新 `data/reference.json`
@@ -155,6 +155,10 @@ bin/checkpoint/
 
 - `checkpoint` 同时带 `-DUSE_SPIKE` 和 `-DCHECKPOINT`
 - `bin/checkpoint/...` 和 `bin/spike/...` 不是同一类 ELF
+- `bin/checkpoint/...` 仍然是用户态 ELF；它不是 checkpoint 文件，也没有把 pk 编译进 ELF
+- `-DCHECKPOINT` 会在 `perf_init()` 中加入 ELF 页面预读和 `csrw 0x800, x0`
+- 页面预读会逐页访问 `__ehdr_start` 到 `_end`，让 pk 的按需加载页面先进入模拟内存
+- `csrw 0x800, x0` 只是向修改版 Spike 发出保存请求；真正写出 `.bootram`、`.mainram`、`.re_regs` 和 `.htif` 发生在 Spike 的 `ckpt->save()`
 
 ### 4.4 单个测试编译
 
@@ -238,6 +242,12 @@ install/riscv-isa-sim/bin/spike --isa="$MARCH" \
 1. `make checkpoint`
 2. 对 `bin/checkpoint/` 下每个可执行文件执行 `spike --save=...`
 
+当前脚本采用覆盖式生成：
+
+- checkpoint 构建使用强制重编译，因此同目录 `.S` 文件的修改会进入新的 ELF；
+- 每个测试都会重新执行 `spike --save`，不会因为旧 `.bootram` 存在而跳过；
+- 生成前会删除该测试的旧 `.bootram`、`.re_regs`、`.htif` 和所有 `.mainram` 压缩变体。
+
 checkpoint 输出目录：
 
 ```text
@@ -271,6 +281,31 @@ install/riscv-isa-sim/bin/spike --isa="$MARCH" -m64 \
 规则：
 
 - `--save` 后面给的是 checkpoint 前缀，不是目录。
+- 触发保存需要同时满足：checkpoint ELF 使用 `-DCHECKPOINT`，且 Spike 使用 `--save=<prefix>`
+- Spike 收到触发请求后可能先完成当前执行批次，因此最终保存的 PC 可能已经越过 `csrw 0x800, x0`，通常要检查 `.re_regs` 确认实际保存位置
+
+### 6.3 Checkpoint 文件和内存范围
+
+checkpoint 保存的是模拟机器状态，不只是用户程序的指令：
+
+```text
+.mainram(.zst)  模拟主内存：pk、用户程序、页表、栈、堆和数据
+.bootram        恢复寄存器、CSR、权限和 PC 的启动代码
+.re_regs        可读的 PC、通用寄存器和部分 CSR
+.htif           tohost/fromhost 地址
+```
+
+因此，保存时 CPU 即使处于用户态，快照中仍可能包含 pk 的代码和数据。恢复时可以不重新提供 pk；pk 已经在 `.mainram` 中。预读 ELF 页面主要是为了减少恢复后再次从原用户 ELF 按需加载页面的依赖。
+
+`.mainram` 是二进制的**模拟物理内存快照**，不是只保存指令的文件。恢复时不会每执行一条指令就从磁盘读取 `.mainram`；Spike 会先解压（如果是 `.zst`），再把内容整体写入模拟内存，之后 CPU 按正常取指流程从模拟内存读取指令：
+
+```text
+.mainram.zst → 解压 → 模拟主内存
+                       ↓
+          PC → 页表/MMU → 模拟物理地址 → 取指
+```
+
+`.bootram` 中的代码先负责恢复寄存器、CSR、`satp`、特权级和保存的 PC；恢复完成后，用户程序和 pk 的指令、数据都来自 `.mainram` 恢复出的模拟内存。带 pk 恢复时，Spike 可以先加载 pk ELF，但随后 checkpoint 主内存会覆盖对应状态；最终继续执行的仍是快照中的状态。
 
 ## 7. Checkpoint 恢复规则
 
@@ -284,21 +319,35 @@ install/riscv-isa-sim/bin/spike --isa="$MARCH" -m64 \
 
 ### 7.2 恢复单个 checkpoint
 
+推荐使用不带 ELF 的恢复方式：
+
 ```bash
 LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH \
 install/riscv-isa-sim/bin/spike \
   --isa="$MARCH" \
   --load=checkpoints/latency/DIV/div \
-  --instructions=1200000 \
+  --instructions=1200000
+```
+
+也可以带 pk 作为恢复时的 ELF 加载入口：
+
+```bash
+LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH \
+install/riscv-isa-sim/bin/spike \
+  --isa="$MARCH" \
+  --load=checkpoints/latency/DIV/div \
   install/pk/pk bin/checkpoint/latency/DIV/div
 ```
 
 规则：
 
 - `--load` 传的是 checkpoint 前缀，不是 `*.bootram`
-- 从 loader 机制看，`--load` 并不强制外层 ELF 和 checkpoint 文件名一一对应；没有 ELF 时会自动用 `none` 占位
-- 恢复时用 `bin/checkpoint/...`，不要用 `bin/spike/...`
+- 不带 ELF 时，当前 Spike 自动使用 `none` 占位，直接恢复 `.bootram` 和 `.mainram`
+- 带 pk 时，Spike 先加载物理地址位于 `0x80000000` 附近的 pk，再用 checkpoint 主内存覆盖恢复；这种写法也可以工作
+- 不要把 `bin/checkpoint/...` 用户 ELF 单独作为 `--load` 后的第一个 ELF 参数；它的用户虚拟地址通常从 `0x10000` 开始，Spike 直接按物理地址加载时可能报 `Memory address ... is invalid`
+- 恢复时不能把 `bin/spike/...` 当成 checkpoint ELF；checkpoint 应使用对应的 `bin/checkpoint/...` 生成
 - spike 限制指令数用的是 `--instructions=<n>`
+- 如果既没有正常的 `tohost` 退出，也没有 `--instructions` 等上限，恢复后的模拟可能持续执行
 
 ## 8. 验证规则
 
@@ -356,8 +405,9 @@ install/riscv-isa-sim/bin/spike \
 
 当前 checkpoint ELF 的保存点在 `perf_init()` 里：
 
-- `perf_init()` 里会执行 `csrw 0x800, x0`
-- 恢复后从这里继续
+- `perf_init()` 先预读程序 ELF 页面，再执行 `csrw 0x800, x0`
+- 这条 CSR 写入是保存请求，不等于文件已经在这一条指令处写出
+- 恢复后从 Spike 最终保存的 PC 继续；保存 PC 可能位于触发点之后
 - 后面的 warmup 仍然会跑
 
 规则：
@@ -365,6 +415,12 @@ install/riscv-isa-sim/bin/spike \
 - 现在恢复 `DIV` checkpoint 后，warmup 仍然会执行
 - 所以恢复后不是“只剩 10w 个 div”
 - 如果想让保存点落在 warmup 之后，必须把 checkpoint 触发点移动到 warmup 后并重新生成 checkpoint
+
+`perf_start()` 和 `perf_stop()` 只负责计数区间，不负责停止模拟：
+
+```text
+恢复 → 剩余 warmup → perf_start → 正式测试 → perf_stop → perf_print → tohost 退出
+```
 
 ## 10. Model 集成规则
 
@@ -381,6 +437,7 @@ install/riscv-isa-sim/bin/spike \
 
 - `model` 参数和 `spike` 参数是两层不同的命令行
 - checkpoint / load / instruction limit 这类参数要放进 `--spike-params`
+- `model` 使用的是内部 Spike/ISA 加载路径；要把 `--load`、`--instructions` 等参数放在 `--spike-params` 中
 
 ### 10.1 用 `uarch run` 跑 model
 
@@ -426,10 +483,10 @@ install/riscv-isa-sim/bin/spike \
   - `checkpoints/latency/DIV/div`
   - `checkpoints/latency/FDIV/fdiv_d`
 - 不要带 `.bootram`
+- 恢复 checkpoint 时不需要再次提供 pk；若命令行中提供 pk，它只是帮助内部 Spike 完成入口 ELF/符号初始化，随后 checkpoint 内存会覆盖对应状态
 - `--spike-params` 放的是给内部 spike 的参数
 - `model` 外层只负责解析和调度，不要把 `--log-commits` 放在外层
 - 如果要换测试，只同时替换：
   - `--load=/work/home/uatu/code/performance-test/checkpoints/...`
   - 最后的 `/work/home/uatu/code/performance-test/bin/checkpoint/...`
 - `cluster0-core0 [PASS]: ...` 会出现在对应测试的 `.log` 里
-

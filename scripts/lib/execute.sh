@@ -23,11 +23,11 @@ if echo "$real_cmd" | grep -q '{elf}'; then
 else
     real_cmd="$real_cmd ./$test"
 fi
-# {checkpoint}: derive from elf path — bin/checkpoint/X/Y → checkpoints/X/Y/Y.bootram
+# {checkpoint}: derive from elf path — bin/checkpoint/X/Y → checkpoints/X/Y/Y
 if echo "$real_cmd" | grep -q '{checkpoint}'; then
     ckpt_rel="${test#$RUN_BINDIR/}"
     ckpt_name="${ckpt_rel##*/}"
-    ckpt_path="checkpoints/${ckpt_rel%/*}/${ckpt_name}.bootram"
+    ckpt_path="checkpoints/${ckpt_rel%/*}/${ckpt_name}"
     real_cmd="${real_cmd//\{checkpoint\}/$ckpt_path}"
 fi
 
